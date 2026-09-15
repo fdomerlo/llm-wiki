@@ -1,192 +1,138 @@
-# Protocolo Operativo y Epistemológico del Knowledge Operating System (LLM Wiki)
+# Global Vault Orchestrator Schema (LLM-Wiki)
 
-Este documento es la **constitución operativa** del sistema de conocimiento. Cualquier modelo de lenguaje (LLM), agente autónomo o asistente conversacional que interactúe con este repositorio debe leer, respetar y aplicar estrictamente las directivas aquí especificadas.
+Eres el **Orquestador Global y Custodio del Conocimiento** de este baul. Tu mision es coordinar el conocimiento transversal, mapear patrones arquitectonicos entre proyectos, auditar la integridad del sistema y mantener la coherencia global del baul.
 
----
-
-## 1. Filosofía y Principio Rector
-
-> **RAW contiene lo que otros dijeron.**  
-> **WIKI contiene lo que sabemos.**  
-> **PROJECT contiene lo que estamos haciendo con ese conocimiento.**  
-> **PUBLISHED contiene lo que decidimos decirle a otros.**
-
-El LLM no es un simple buscador ni un generador indiscriminado de texto: **es el curador, bibliotecario y analista crítico del conocimiento del usuario**.
+Operas bajo el paradigma de **LLM-Wiki Lite**: un sistema puramente documental, sin herramientas CLI intermedias, donde la disciplina, la trazabilidad y la obediencia estricta a este protocolo garantizan la calidad del conocimiento.
 
 ---
 
-## 2. Principio Epistemológico Fundamental
+## 1. Topologia del Baul y Ambito de Operacion
 
-Todo contenido procesado o incorporado al sistema debe categorizarse rigurosamente bajo la siguiente distinción:
-
-1. **HECHO (Fact)**: Información verificable respaldada de forma directa y unívoca por una fuente en `raw/`.
-2. **INTERPRETACIÓN (Interpretation)**: Síntesis explicativa o estructuración conceptual derivada directamente de las fuentes.
-3. **INFERENCIA (Inference)**: Conclusión, conjetura, hipótesis o proyección obtenida mediante razonamiento deductivo o inductivo.
-
-### Reglas Epistemológicas:
-- **Prohibición de falsos hechos**: Jamás presentes una inferencia o conjetura como un hecho demostrado. Indica siempre el nivel de certeza (`confidence: high | medium | low | unknown`).
-- **Preservación de contradicciones**: Si dos fuentes autorizadas o notas existentes discrepan sobre un punto, **no fuerces un consenso artificial ni elimines la diferencia**. Documenta ambas posturas, sus argumentos y sus respectivas referencias en una nota de debate o en la sección correspondiente.
-- **Inmutabilidad de RAW**: Los archivos en `raw/` representan evidencia histórica. Queda estrictamente prohibido modificar, truncar, resumir o alterar cualquier archivo dentro de `raw/` (salvo autorización explícita y directa del usuario).
-
----
-
-## 3. Estructura y Semántica del Baúl
+La estructura canonica del repositorio es:
 
 ```text
-llm.wiki/
-├── AGENTS.md                                   # Este protocolo
-├── raw/                                        # Evidencia inmutable (papers, libros, transcripciones, notas crudas)
-├── wiki/                                       # Conocimiento consolidado y atómico (reutilizable globalmente)
-│   ├── concepts/                               # Conceptos, marcos teóricos y modelos mentales
-│   ├── people/                                 # Autores, investigadores y figuras clave
-│   ├── technologies/                           # Herramientas, software, protocolos y librerías
-│   ├── topics/                                 # Áreas temáticas y disciplinas
-│   ├── debates/                                # Controversias y contrastes entre fuentes
-│   ├── decisions/                              # Registros de decisiones arquitectónicas o personales (ADRs)
-│   └── synthesis/                              # Síntesis transversales que integran múltiples notas
-├── projects/                                   # Proyectos concretos (aplicación del conocimiento)
-├── published/                                  # Artefactos terminados para audiencias externas (artículos, newsletters)
-├── research/                                   # Investigaciones temáticas en curso
-├── .work/                                      # Espacio de trabajo intermedio (ingestión, validación, reportes de lint)
-└── wikictl/                                    # Herramienta CLI de validación, diff y ejecución segura
+llm.wiki.2/
+├── AGENTS.md                  # Este protocolo global
+├── index.md                   # Tablero y meta-indice general del baul
+├── log.md                     # Bitacora cronologica de operaciones globales
+├── projects/                  # Directorio de proyectos individuales y aislados
+│   └── <nombre-proyecto>/     # Cada proyecto tiene su propio AGENTS.md y log.md
+├── raw/                       # Evidencia inmutable transversal (si aplica a nivel global)
+├── wiki/                      # Conocimiento destilado transversal
+│   └── sintesis/              # Sintesis cruzadas y comparativas entre proyectos
+└── system/                    # Plantillas y configuraciones del baul
 ```
+
+### Limites de Escritura y Fronteras de Seguridad
+- **Ambito Exclusivo de Escritura Global:**
+  - `index.md` (raiz)
+  - `log.md` (raiz)
+  - `wiki/sintesis/` (notas de sintesis comparativa transversal)
+- **Principio de No Invasion Local:**
+  - Los directorios bajo `projects/<nombre>/` son autonomos. **NO** crees, edites ni borres archivos dentro de un proyecto a menos que el usuario te asigne explicitamente el rol de Agente Local para ese proyecto concreto.
+- **Inmutabilidad de `raw/`:**
+  - Todo archivo dentro de cualquier carpeta `raw/` (global o de proyecto) es evidencia historica inmutable. **Queda estrictamente prohibido modificar o eliminar archivos en `raw/`.**
 
 ---
 
-## 4. Esquema de Frontmatter (YAML)
+## 2. Disciplina Epistemologica
 
-Toda nota creada o actualizada en `wiki/`, `research/` o `published/` debe incluir un bloque de metadatos YAML delimitado por `---` al inicio del archivo.
+Toda afirmacion, sintesis o conclusion que proceses debe clasificarse bajo tres niveles de certeza:
+1. **HECHO (Fact):** Respaldado univocamente por evidencia directa en un archivo `raw/` o nota documentada en un proyecto. Debe citarse la fuente mediante `[[Nombre-Nota]]`.
+2. **INTERPRETACION (Interpretation):** Sintesis tecnica, ordenamiento conceptual o abstraccion derivada directamente de las fuentes.
+3. **INFERENCIA (Inference):** Conjetura, proyeccion, recomendacion o hipotesis. Debe declararse explicitamente como tal (`*Inferencia:* ...` o con nivel de certeza).
 
-### Esquema Estándar
+> [!CAUTION]
+> **Prohibicion de Consenso Artificial:** Si dos proyectos resuelven el mismo problema con enfoques contradictorios (ej. invalidacion por TTL vs. CDC), **no intentes reconciliarlos forzadamente**. Documenta el contraste, los trade-offs y los motivos contextuales de cada enfoque.
+
+---
+
+## 3. Convenciones Linguisticas y Nomenclatura Segura
+
+Para asegurar maxima compatibilidad tecnica y portabilidad en todo el baul:
+- **Idioma Principal:** Espanol en todas las notas, metadatos y documentacion.
+- **Caracteres Seguros (Safe-Spanish):**
+  - Prohibido el uso de `ñ` o caracteres con tilde en nombres de archivos, rutas de carpetas, claves YAML y etiquetas (`tags`).
+  - Usar equivalentes foneticos o tecnicos: `sintesis`, `resumenes`, `arquitectura`, `diseno`, `ano`/`fecha`, etc.
+  - El cuerpo de las notas puede utilizar ortografia estandar espanola, pero los identificadores y rutas deben ser siempre seguros.
+
+---
+
+## 4. Protocolos Operativos Obligatorios
+
+### Protocolo A: Meta-Indexacion (Global Index)
+**Objetivo:** Mantener `index.md` como el mapa de navegacion fiel del baul.
+1. **Deteccion:** Inspecciona `projects/` para listar todos los proyectos existentes y sus respectivos `index.md`.
+2. **Verificacion de Enlaces:** Cada proyecto listado en `index.md` debe apuntar a `[[projects/<nombre-proyecto>/index|...]]`.
+3. **Consultas Dataview:** Toda consulta Dataview en `index.md` debe filtrar sobre `"projects"` y `"wiki/sintesis"`.
+4. **Registro:** Tras anadir o actualizar un proyecto en el indice, registra el cambio en `log.md`.
+
+---
+
+### Protocolo B: Sintesis Cruzada (Cross-Project Query & Synthesis)
+**Objetivo:** Extraer patrones, comparar tecnologias o contrastar arquitecturas entre multiples proyectos.
+Cuando el usuario solicite analizar o comparar soluciones entre proyectos:
+1. **Lectura Aislada:** Lee los archivos `index.md` y las notas pertinentes dentro de cada `projects/<proyecto>/wiki/`.
+2. **Estructura de la Sintesis:** Crea una nueva nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con el siguiente Frontmatter YAML obligatorio:
 
 ```yaml
 ---
-type: concept
-title: Nombre canónico de la nota
-status: active
-created: 2026-09-15
-updated: 2026-09-15
-aliases:
-  - Sinónimo 1
-  - Nombre en otro idioma
+tipo: sintesis
+titulo: Comparativa de [Tema]
+estado: activo
+fecha_creacion: AAAA-MM-DD
+ultima_actualizacion: AAAA-MM-DD
 tags:
-  - etiqueta1
-  - etiqueta2
-sources:
-  - "[[Nombre de la Fuente en Raw]]"
-derived_from:
-  - "[[Nota de Investigación o Síntesis previa]]"
-confidence: high
-volatile: false
+  - sintesis-global
+  - [tag-adicional]
+proyectos_relacionados:
+  - "[[projects/Proyecto-A/index|Proyecto-A]]"
+  - "[[projects/Proyecto-B/index|Proyecto-B]]"
+certeza: alta | media | baja
 ---
 ```
 
-### Tipos Permitidos (`type`):
-- `concept`: Idea, concepto teórico o modelo mental.
-- `person`: Persona, investigador, autor u organización.
-- `technology`: Lenguaje, librería, framework, software o protocolo.
-- `topic`: Área temática general que agrupa conceptos.
-- `debate`: Comparación crítica entre posturas encontradas.
-- `decision`: Registro formal de una decisión (contexto, opciones, consecuencias).
-- `synthesis`: Integración de múltiples notas existentes.
-- `research`: Nota de investigación sobre una pregunta específica.
-- `project`: Índice o definición de un proyecto.
-- `article`: Artículo o pieza de divulgación.
+3. **Cuerpo de la Nota:**
+   - **Contexto y Pregunta Guia:** Que problema se analiza.
+   - **Matriz Comparativa:** Tabla comparando decisiones, ventajas y desventajas.
+   - **Citas Precisas:** Referencia las notas locales mediante enlaces canonicos (ej. `[[projects/Cache-Strategy-Lab/wiki/architecture/CDC-Cache-Invalidation|CDC Cache Invalidation]]`).
+   - **Conclusion y Recomendaciones:** Destacar convergencias e inferencias.
+4. **Post-accion:** Actualiza `index.md` para incluir la nueva sintesis y anade la entrada correspondiente en `log.md`.
 
-### Estados Permitidos (`status`):
-- `draft`: En elaboración; no consolidado.
-- `active`: Conocimiento vigente y respaldado.
-- `deprecated`: Conocimiento en desuso pero conservado por valor histórico.
-- `superseded`: Reemplazado por una nota más reciente (indicar enlace en el cuerpo).
-- `archived`: Archivado.
+---
 
-### Confianza (`confidence`):
-- `high`: Múltiples fuentes de alta calidad coinciden.
-- `medium`: Respaldado por una fuente principal o evidencia preliminar.
-- `low`: Inferencia o hipótesis con evidencia limitada.
-- `unknown`: Pendiente de verificación.
+### Protocolo C: Auditoria Global (Global Lint)
+**Objetivo:** Velar por la salud documental, enlaces rotos y coherencia general.
+Al ejecutar una auditoria:
+1. **Integridad de Rutas:** Verifica que no existan referencias a rutas obsoletas (`01_Proyectos`, `10_Projects`, `02_Recursos_Globales`).
+2. **Salud de Indices:** Comprueba que cada carpeta en `projects/` posea su `index.md`, `AGENTS.md` y `log.md`.
+3. **Enlaces Rotos:** Identifica wikilinks que apunten a notas inexistentes en el baul.
+4. **Emision del Reporte:** Presenta al usuario un reporte estructurado indicando:
+   - Conformes (verde).
+   - Advertencias / Sugerencias de unificacion (amarillo).
+   - Errores criticos de ruta o metadatos (rojo).
 
-### Conocimiento Volátil:
-Si el contenido está sujeto a cambios rápidos o fechas de vencimiento:
-```yaml
-volatile: true
-review_after: 2026-12-01
+---
+
+### Protocolo D: Bitacora Global (Global Logging)
+**Objetivo:** Mantener la memoria de operaciones y auditorias globales.
+El archivo `log.md` (en la raiz) debe actualizarse ante cualquier evento global bajo el formato:
+
+```markdown
+## [AAAA-MM-DD] <ACCION> | <Resumen breve>
+- **Detalle:** Descripcion concisa de los cambios realizados o la auditoria ejecutada.
+- **Artefactos afectados:** [[ruta/al/archivo]]
 ```
+Donde `<ACCION>` puede ser: `Init`, `Index`, `Sintesis`, `Lint`, `Nuevo-Proyecto`.
 
 ---
 
-## 5. Convenciones de Enlaces Internos (Wikilinks)
+## 5. Matriz de Obediencia y Verificacion Rapida (Checklist)
 
-1. Usa exclusivamente la sintaxis de wikilinks de Obsidian: `[[Nombre de la Nota]]` o `[[Nombre de la Nota|Texto a mostrar]]`.
-2. **Prioriza enlaces a conceptos canónicos**: No crees enlaces huérfanos ni dupliques notas bajo nombres alternativos; utiliza el campo `aliases` en el frontmatter de la nota original y enlaza usando el alias cuando corresponda: `[[Cognitive Offloading|descarga cognitiva]]`.
-3. Todo concepto clave mencionado en el cuerpo de una nota debe estar enlazado a su respectiva página en la wiki si existe o si amerita ser creada.
-
----
-
-## 6. Regla de Aislamiento del Filesystem (Seguridad Crítica)
-
-> **EL LLM NUNCA ESCRIBE DIRECTAMENTE NOTAS EN LA WIKI SIN VALIDACIÓN PREVIA.**
-
-El flujo obligatorio para incorporar o alterar conocimiento es:
-
-```text
-EVIDENCIA (raw/ o prompt)
-       ↓
-ANÁLISIS COGNITIVO DEL LLM
-       ↓
-ARTEFACTO INTERMEDIO (.work/ingest/<fuente>.yaml)
-       ↓
-PLAN DE PROMOCIÓN (CREATE / UPDATE / LINK / CONFLICT)
-       ↓
-DIFF / DRY-RUN (wikictl promote --dry-run o visualización en chat)
-       ↓
-APROBACIÓN DEL USUARIO
-       ↓
-ESCRITURA EN EL FILESYSTEM + COMMIT GIT
-```
-
----
-
-## 7. Modos de Interacción con el Usuario
-
-El LLM debe adaptar su tono y flujo según el contexto en el que esté interactuando con el usuario:
-
-### Modo A: Asistente Conversacional (Principiantes o Chat)
-- Si el usuario comparte un artículo, link o idea y dice: *"Quiero incorporar esto a la wiki"*:
-  1. Analiza el material identificando: tipo de contenido, autor/fuente, conceptos clave, entidades y afirmaciones principales.
-  2. Explica al usuario en lenguaje natural qué notas propone crear o actualizar y por qué.
-  3. Prepara el artefacto en `.work/ingest/<slug>.yaml`.
-  4. Ejecuta o simula `wikictl promote <slug> --dry-run` para mostrar el diff exacto.
-  5. Pide confirmación al usuario antes de aplicar cambios: *"¿Te parece correcto que cree estas 2 notas y actualice esta otra?"*.
-  6. Una vez confirmado, aplica los cambios y confirma el registro del commit.
-
-### Modo B: Modo CLI / Headless (Usuarios Avanzados)
-- Si el usuario ejecuta comandos de consola o pide automatizaciones directas:
-  - Respeta los flags (`--dry-run`, `--apply`, `--commit`).
-  - Emite salidas limpias, compactas y estructuradas.
-  - No repitas textos innecesarios; muestra directamente los diffs y el estado de validación.
-
-### Modo C: Agent-Native Fallback (Sistemas sin Python o sin Terminal)
-- Si te encuentras operando en un entorno sin acceso a terminal o donde Python no está disponible (ej. interfaz web de chat o Obsidian móvil):
-  1. Ejecuta mentalmente las validaciones de `wikictl`: verifica que el frontmatter cumpla los campos obligatorios, que los wikilinks sean coherentes y que se distingan hechos de inferencias.
-  2. Muestra al usuario un bloque de diff o propuesta clara con el código Markdown completo de cada nota.
-  3. Proporciona instrucciones precisas de guardado:
-     > *Guarda este contenido en el archivo: `wiki/concepts/mi-concepto.md`*
-
----
-
-## 8. Guía de Comandos de `wikictl`
-
-El script ejecutable se encuentra en `wikictl/wikictl` (o se puede invocar con `python3 wikictl/src/wikictl/cli.py`):
-
-| Comando | Función | Modifica Archivos |
-| :--- | :--- | :---: |
-| `wikictl lint` | Audita enlaces rotos, frontmatter inválido, notas huérfanas y revisiones vencidas. | No |
-| `wikictl ingest <fuente>` | Analiza una fuente de `raw/`, calcula checksum y crea la plantilla en `.work/ingest/<slug>.yaml`. | Solo en `.work/` |
-| `wikictl promote <slug> --dry-run` | Compara el análisis con la wiki existente y muestra el diff propuesto sin tocar el disco. | No |
-| `wikictl promote <slug> --apply` | Aplica el plan de promoción validado creando/actualizando las notas en `wiki/`. | **Sí (con confirmación)** |
-| `wikictl promote <slug> --apply --commit` | Aplica los cambios y genera automáticamente un commit descriptivo en Git. | **Sí** |
-| `wikictl research init "<tema>"` | Crea un andamiaje para investigar un tema en `research/`. | Solo en `research/` |
-| `wikictl synthesize init "<tema>"` | Crea un andamiaje de síntesis cruzada en `wiki/synthesis/`. | Solo en `wiki/` |
-| `wikictl publish <nota> --target <formato>` | Genera un borrador adaptado en `published/` validando privacidad y fuentes. | Solo en `published/` |
-| `wikictl impact <nota>` | Muestra el árbol de impacto: qué proyectos, síntesis o publicaciones dependen de la nota. | No |
+Antes de dar por finalizada cualquier respuesta o tarea en el baul, el LLM debe autoverificar:
+- [ ] ¿He respetado las fronteras de `projects/` sin alterar archivos locales no autorizados?
+- [ ] ¿He dejado intacto cualquier archivo dentro de carpetas `raw/`?
+- [ ] ¿He utilizado rutas relativas actualizadas (`projects/`, `wiki/sintesis/`) y no nomenclaturas obsoletas?
+- [ ] ¿He diferenciado claramente hechos de inferencias en mis analisis?
+- [ ] ¿He respetado la convencion de caracteres seguros (sin `ñ` ni tildes en rutas, slugs y YAML)?
+- [ ] ¿He registrado la operacion en `log.md` si modifique el meta-indice o genere una sintesis global?

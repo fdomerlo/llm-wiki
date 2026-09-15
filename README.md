@@ -1,158 +1,148 @@
-# LLM Wiki — Knowledge Operating System
+# LLM-Wiki Lite — Sistema Operativo de Conocimiento Documental
 
-<p align="center">
-  <img src="docs/assets/social-preview.png" alt="LLM Wiki — Knowledge Operating System" width="100%">
-</p>
-
-Un **Sistema Operativo del Conocimiento personal** basado en **Obsidian + Markdown + Git**, operado bajo el paradigma **"LLM-as-Operator"** y protegido por un kernel determinístico con **cero dependencias externas** (`wikictl`).
-
-Inspirado en la visión de Andrej Karpathy sobre el uso de Modelos de Lenguaje como curadores, bibliotecarios y analistas críticos de una base de conocimiento viva y acumulativa.
+Un **baul de conocimiento personal y tecnico** basado en **Obsidian + Markdown**, disenado bajo el paradigma **LLM-as-Operator** en su variante **Lite**: puramente documental, sin scripts CLI intermediarios ni dependencias de software externas, donde la **disciplina epistemologica**, la **verbosidad guiada** y la **obediencia del LLM** aseguran la coherencia del conocimiento.
 
 ---
 
-## 🧭 La Filosofía del Sistema
+## 🧭 Proposito y Filosofia
 
-> **RAW** contiene lo que otros dijeron.  
-> **WIKI** contiene lo que sabemos.  
-> **PROJECT** contiene lo que estamos haciendo con ese conocimiento.  
-> **PUBLISHED** contiene lo que decidimos decirle a otros.
+El objetivo de este repositorio es transformar a cualquier Modelo de Lenguaje (LLM) en un **bibliotecario, analista y custodio activo** de tu base de conocimiento, en lugar de un mero generador pasivo de texto.
 
-A diferencia de las herramientas convencionales de RAG o chatbots que solo consultan pasivamente archivos, este sistema convierte al LLM en un **asistente activo** que ayuda a estructurar, relacionar, mantener, investigar y convertir el conocimiento en productos derivados, manteniendo la verdad inmutable y versionada con Git.
+### La Triada del Sistema
+- **`raw/` contiene lo que otros dijeron:** Evidencia historica inmutable (articulos, transcripciones, especificaciones).
+- **`wiki/` contiene lo que sabemos:** Conocimiento destilado, atomico y conectado mediante enlaces bidireccionales.
+- **`projects/` contiene lo que construimos:** Espacios aislados donde el conocimiento se aplica a dominios y proyectos tecnicos especificos.
 
 ---
 
-## 🛡️ Principio Arquitectónico Crítico (Aislamiento)
+## 🛡️ Principios Operativos y Epistemologicos
 
-> **EL LLM NUNCA ESCRIBE DIRECTAMENTE SOBRE LAS NOTAS DE LA WIKI.**
+### 1. Inmutabilidad Absoluta de Evidencias (`raw/`)
+Queda estrictamente prohibido que un LLM o usuario modifique, recorte o elimine archivos dentro de cualquier carpeta `raw/`. Todo documento crudo permanece como testigo historico de la informacion original.
 
-Para evitar alucinaciones, enlaces rotos y corrupción silenciosa del grafo, el flujo de incorporación siempre es:
+### 2. Clasificacion de Certeza
+Todo contenido generado o sintetizado por un LLM en este baul debe distinguirse con precision:
+- **HECHO (Fact):** Afirmacion demostrada de forma directa por una fuente en `raw/` o nota tecnica previa. Debe citarse con `[[wikilink]]`.
+- **INTERPRETACION (Interpretation):** Sintesis analitica o estructuracion conceptual derivada de los hechos observados.
+- **INFERENCIA (Inference):** Conjetura, hipotesis o recomendacion externa del modelo. Debe marcarse explicitamente (`*Inferencia:* ...` o `certeza: media/baja`).
+
+### 3. Preservacion de Conflictos (Sin Consenso Artificial)
+Si dos fuentes o proyectos discrepan tecnicamente (por ejemplo, invalidacion de cache por TTL vs. invalidacion reactiva con CDC), el LLM **no debe ocultar ni reconciliar forzosamente la diferencia**. Se documentan ambos enfoques, sus pros, sus contras y el contexto de cada decision.
+
+### 4. Convencion Linguistica y Nomenclatura Segura (Safe-Spanish)
+- El baul opera íntegramente en **espanol**.
+- Para garantizar portabilidad en cualquier sistema operativo y terminal, los nombres de archivos, rutas de carpetas, slugs, etiquetas (`tags`) y claves YAML no contienen `ñ` ni tildes (ej. `sintesis`, `resumenes`, `arquitectura`, `diseno`, `ano`/`fecha`).
+
+---
+
+## 📂 Topologia del Repositorio
 
 ```text
-EVIDENCIA (raw/) o PROMPT
-       ↓
-ANÁLISIS COGNITIVO DEL LLM
-       ↓
-ARTEFACTO ESTRUCTURADO (.work/ingest/<fuente>.yaml)
-       ↓
-PLAN DE PROMOCIÓN & DIFF (wikictl promote --dry-run)
-       ↓
-APROBACIÓN DEL USUARIO
-       ↓
-ESCRITURA EN DISCO + COMMIT GIT ATÓMICO (wikictl promote --apply --commit)
+llm.wiki.2/
+├── AGENTS.md                  # Protocolo global del Orquestador del baul
+├── README.md                  # Esta guia de uso y arquitectura
+├── index.md                   # Tablero general con consultas Dataview
+├── log.md                     # Bitacora cronologica de operaciones globales
+├── raw/                       # Evidencia transversal global (inmutable)
+├── wiki/                      # Conocimiento destilado transversal
+│   └── sintesis/              # Matrices comparativas entre proyectos
+├── system/                    # Plantillas del sistema (Templater)
+│   ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
+│   └── tpl_OKF.md             # Generador de proyectos OKF
+└── projects/                  # Directorio de proyectos autonomos
+    └── Cache-Strategy-Lab/    # Ejemplo de proyecto activo
+        ├── AGENTS.md          # Protocolo del Agente Local de proyecto
+        ├── index.md           # Tablero y metricas del proyecto
+        ├── log.md             # Bitacora de ingestas y cambios locales
+        ├── raw/               # Evidencias inmutables del proyecto
+        └── wiki/              # Grafo de conocimiento local
+            ├── arquitectura/  # Patrones y decisiones de diseno
+            ├── conceptos/     # Modelos mentales y tecnicas atomicas
+            ├── entidades/     # Herramientas, bases de datos y servicios
+            ├── resumenes/     # Resumenes estructurados de cada fuente
+            └── sintesis/      # Comparativas tecnicas locales
 ```
 
 ---
 
-## ⚡ Requisitos y Portabilidad: Cero Dependencias
+## 🤖 Jerarquia de Agentes (Global vs. Local)
 
-- **Funciona en cualquier plataforma**: Linux, macOS y Windows.
-- **Sin `pip install` ni librerías externas**: Utiliza exclusivamente la **biblioteca estándar de Python 3** (`pathlib`, `argparse`, `json`, `difflib`, `re`, `subprocess`, `dataclasses`).
-- Clonas el repositorio y lo comienzas a usar de inmediato:
-  ```bash
-  ./wikictl/wikictl --help
-  ```
+El sistema define dos roles de agente claramente delimitados:
 
----
+| Rol | Ubicacion de su Protocolo | Ambito de Escritura | Responsabilidad Principal |
+| :--- | :--- | :--- | :--- |
+| **Orquestador Global** | `llm.wiki.2/AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
+| **Agente Local** | `projects/<nombre>/AGENTS.md` | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
 
-## 📂 Estructura Canónica del Baúl
-
-```text
-llm.wiki/
-├── AGENTS.md                                   # Protocolo operativo y epistemológico para LLMs
-├── README.md                                   # Esta guía
-├── docs/                                       # Documentación y especificación fundacional
-│   ├── MANUAL_DE_USUARIO.md                    # Manual detallado paso a paso
-│   └── PROJECT_FOUNDATION.md                   # Especificación arquitectónica original
-├── raw/                                        # Evidencia inmutable (notes, clippings, papers, books)
-│   ├── notes/                                  # Notas rápidas y notas nuevas por defecto
-│   ├── clippings/                              # Recortes del plugin Obsidian Web Clipper
-│   ├── articles/                               # Artículos y lecturas web
-│   ├── papers/                                 # Papers académicos
-│   ├── books/                                  # Resúmenes y notas de libros
-│   ├── transcripts/                            # Transcripciones de audio o video
-│   └── attachments/                            # Adjuntos (imágenes, audios, PDFs)
-├── wiki/                                       # Conocimiento consolidado y atómico (reutilizable)
-│   ├── concepts/                               # Conceptos y modelos mentales
-│   ├── people/                                 # Autores y figuras clave
-│   ├── technologies/                           # Herramientas, software y protocolos
-│   ├── topics/                                 # Disciplinas y áreas temáticas
-│   ├── debates/                                # Controversias y contrastes entre fuentes
-│   ├── decisions/                              # Registros de decisiones arquitectónicas (ADRs)
-│   └── synthesis/                              # Síntesis transversales de múltiples notas
-├── projects/                                   # Proyectos concretos (aplicación del conocimiento)
-├── published/                                  # Material final para terceros (newsletters, artículos)
-├── research/                                   # Investigaciones temáticas en curso
-├── .work/                                      # Espacio de trabajo intermedio (ingesta, reportes lint)
-└── wikictl/                                    # Kernel determinístico y CLI (wikictl/wikictl)
-```
-
-> [!TIP]
-> Si borras carpetas vacías o clonas el repositorio en limpio, puedes restaurar toda la estructura canónica en cualquier momento ejecutando:
-> ```bash
-> ./wikictl/wikictl init
-> ```
+> [!IMPORTANT]
+> **Barrera de Aislamiento:** El Orquestador Global tiene prohibido modificar unilateralmente archivos internos de un proyecto para evitar corrupcion o contaminacion cruzada.
 
 ---
 
-## ⚙️ Configuración Recomendada de Obsidian
+## 🚀 Guia de Uso y Flujos Operativos
 
-Para que Obsidian trabaje en perfecta armonía con el sistema, aplica estas configuraciones en **Ajustes (`Settings`)**:
+### Flujo A: Crear un Nuevo Proyecto
+Existen dos formas de iniciar un proyecto en `projects/`:
 
-1. **Ubicación de nuevas notas (`Archivos y enlaces` / `Files and links`)**:
-   - *Ubicación de notas nuevas por defecto*: `En la carpeta especificada a continuación` → `raw/notes` (para que cualquier nota creada manualmente o con atajo quede en `raw/` como evidencia preliminar sin procesar).
-   - *Ubicación de archivos adjuntos*: `En la carpeta especificada a continuación` → `raw/attachments`.
-2. **Enlaces (`Files and links`)**:
-   - *Usar [[Wikilinks]]*: **Activado** (`ON`).
-   - *Formato de enlaces nuevo*: `Ruta más corta cuando sea posible` (`Shortest path when possible`).
-   - *Detectar todas las extensiones de archivo*: **Activado** (`ON`) para ver PDFs, audios y datasets en el explorador.
-3. **Obsidian Web Clipper (Extensión de Navegador)**:
-   - Configura la ruta de guardado a: `raw/clippings/`
-   - Así, cualquier artículo o captura web cae automáticamente como evidencia pura en `raw/` lista para ser analizada e ingesta.
+1. **Desde Obsidian con Templater:**
+   - Ejecuta el comando *Templater: Open Insert Template Modal*.
+   - Selecciona `system/tpl_WIKI.md`.
+   - Ingresa el nombre del proyecto (ej. `Auth-Service`).
+   - La plantilla creara la estructura de carpetas, inyectara `AGENTS.md`, inicializara `log.md` y creara `index.md`.
 
----
-
-## 🚀 Inicio Rápido en 3 Pasos
-
-No necesitas memorizar comandos de consola ni configurar entornos complejos. El sistema está diseñado para que cualquier persona comience a construir su base de conocimiento conversando con su asistente de IA favorito (**Antigravity, Claude Code, Cursor, Aider, ChatGPT, etc.**):
-
-### 1. Abre el repositorio en Obsidian
-Clona este repositorio y ábrelo como un Baúl existente (**Open folder as vault**) en Obsidian.
-*(Opcional: sigue los 3 ajustes recomendados en la sección [Configuración de Obsidian](#️-configuración-recomendada-de-obsidian) para que tus capturas se guarden ordenadas automáticamente).*
-
-### 2. Agrega tu primer material
-Guarda un texto, artículo web, transcripción o nota rápida en `raw/notes/` o `raw/articles/` (o simplemente pega el contenido directamente en tu conversación con el LLM).
-
-### 3. Pídele al LLM que lo incorpore
-Dile a tu asistente en lenguaje natural:
-> *"Quiero incorporar este documento a la wiki"*
-
-El asistente (instruido automáticamente por el protocolo [`AGENTS.md`](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/AGENTS.md)):
-- Lee y analiza el material distinguiendo rigurosamente **hechos** de **inferencias**.
-- Identifica conceptos clave, tecnologías, autores o debates preexistentes.
-- Prepara una propuesta estructurada y te muestra un **diff claro y seguro** antes de escribir en disco:
-  > *"Propongo crear el concepto `wiki/concepts/descarga-cognitiva.md` y actualizar `wiki/technologies/obsidian.md`. ¿Estás de acuerdo?"*
-- Tras tu confirmación (*"Adelante"*), aplica los cambios atómicamente y genera un commit en Git.
+2. **Mediante Instruccion al LLM:**
+   - Pide al asistente:
+     > *"Crea un nuevo proyecto en projects/ llamado API-Gateway siguiendo la plantilla tpl_WIKI.md y registralo en el index.md global."*
 
 ---
 
-> [!TIP]
-> ### 🛠️ ¿Eres usuario avanzado o prefieres la terminal?
-> Para la suite completa de comandos CLI (`wikictl`), flags de automatización (`--dry-run`, `--apply`, `--commit`, `--strict`, `--json`), auditoría manual del baúl y flujos avanzados de investigación y publicación, consulta el **[Manual de Usuario y Guía Avanzada](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md)**.
+### Flujo B: Ingesta de Documentos en un Proyecto
+Cuando agregues un nuevo articulo, paper o nota en la carpeta `raw/` de un proyecto:
+
+1. Coloca el archivo en `projects/<proyecto>/raw/<fuente>.md`.
+2. Asigna la instruccion al LLM en modo Agente Local:
+   > *"Actua como Agente Local de Cache-Strategy-Lab segun su AGENTS.md. Procesa la fuente raw/03-patron-bulkhead.md ejecutando el Protocolo de Ingesta."*
+3. El LLM realizara:
+   - Resumen estructurado en `wiki/resumenes/`.
+   - Creacion o actualizacion de notas atomicas en `wiki/conceptos/`, `wiki/arquitectura/` o `wiki/entidades/` con enlaces bidireccionales.
+   - Registro de la operacion en `projects/<proyecto>/log.md`.
 
 ---
 
-## 🧪 Pruebas Automatizadas
+### Flujo C: Sintesis Transversal entre Proyectos
+Cuando desees comparar enfoques o contrastar como diferentes proyectos resuelven un mismo desafio:
 
-El sistema incluye una suite completa de 24 tests unitarios e integrales que validan el parsing de YAML, la resolución multidimensional de enlaces Obsidian, la detección de links rotos, diffs, git commits y todos los subcomandos:
-
-```bash
-PYTHONPATH=wikictl/src python3 -m unittest discover -s wikictl/tests
-```
+1. Invoca al LLM en rol de Orquestador Global:
+   > *"Actua como Orquestador Global del baul segun AGENTS.md. Compara las estrategias de invalidacion de cache entre Cache-Strategy-Lab y Session-Manager. Crea la sintesis comparativa correspondiente."*
+2. El LLM:
+   - Lee los indices y notas pertinentes de ambos proyectos.
+   - Genera una nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con tabla comparativa y analisis de trade-offs.
+   - Actualiza el meta-indice [index.md](file:///home/fdomerlo/Proyectos/llm.wiki.2/index.md) y registra el evento en [log.md](file:///home/fdomerlo/Proyectos/llm.wiki.2/log.md).
 
 ---
 
-## 📚 Documentación Adicional
+### Flujo D: Auditoria de Calidad (Linting Documental)
+Para verificar la salud y consistencia del baul:
 
-- [Manual de Usuario y Guía Avanzada](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md): Referencia completa de comandos CLI, flujos avanzados, automatización y configuración del baúl.
-- [Protocolo AGENTS.md](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/AGENTS.md): Reglas epistemológicas y directivas operativas para agentes.
-- [Especificación Fundacional](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/PROJECT_FOUNDATION.md): Fundamentos teóricos y diseño conceptual original.
+1. Solicita al LLM:
+   > *"Ejecuta una auditoria global del baul segun el Protocolo C de AGENTS.md."*
+2. El LLM verificara:
+   - Integridad de rutas y ausencia de nomenclaturas obsoletas.
+   - Presencia de `index.md`, `AGENTS.md` y `log.md` en cada proyecto.
+   - Identificacion de wikilinks rotos o notas desvinculadas.
+   - Emision de un reporte estructurado con semaforo de estado.
+
+---
+
+## ⚙️ Configuracion Recomendada de Obsidian
+
+Para aprovechar al maximo este baul documental:
+
+1. **Plugin Dataview:**
+   - Activar *Enable JavaScript Queries* y *Enable Inline Queries*.
+   - Permite que los tableros de `index.md` (global y locales) muestren automaticamente las notas clasificadas y su fecha de actividad.
+2. **Plugin Templater:**
+   - Configurar la carpeta de plantillas apuntando a `system/`.
+3. **Ajustes Nativos de Archivos y Enlaces:**
+   - **Formato de enlaces nuevo:** Usar enlaces tipo Wikilink (`[[...]]`).
+   - **Ruta de creacion de notas nuevas:** En la misma carpeta que el archivo actual o carpeta especificada.
