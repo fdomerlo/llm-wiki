@@ -60,9 +60,9 @@ def lint_note(note: Note, vault: Vault) -> list[LintIssue]:
     """Ejecuta todas las reglas determinísticas sobre una única nota."""
     issues: list[LintIssue] = []
 
-    # Archivos raíz (AGENTS.md, README.md, etc.) y evidencias en raw/ están exentos de frontmatter de notas
+    # Archivos raíz (AGENTS.md, README.md, etc.), documentación en docs/ y evidencias en raw/ están exentos
     is_root_file = "/" not in note.rel_path
-    if is_root_file or note.rel_path.startswith("raw/"):
+    if is_root_file or note.rel_path.startswith("raw/") or note.rel_path.startswith("docs/"):
         return issues
 
     fm = note.frontmatter

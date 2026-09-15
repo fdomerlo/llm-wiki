@@ -5,6 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
+from wikictl.commands.init import execute_init
 from wikictl.commands.lint import execute_lint
 from wikictl.commands.ingest import execute_ingest
 from wikictl.commands.promote import execute_promote
@@ -27,6 +28,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Comandos disponibles")
+
+    # wikictl init
+    subparsers.add_parser("init", help="Verifica y recrea la estructura de carpetas canónicas del baúl")
 
     # wikictl lint
     lint_p = subparsers.add_parser("lint", help="Audita enlaces, esquemas, huérfanos y fechas de revisión")
@@ -79,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     commands_map = {
+        "init": execute_init,
         "lint": execute_lint,
         "ingest": execute_ingest,
         "promote": execute_promote,

@@ -160,6 +160,19 @@ Se relaciona con [[Descarga Cognitiva]].
         self.assertIn("herramientas externas", pub_content)
         self.assertNotIn("[[Obsidian|", pub_content)
 
+    def test_init_command(self):
+        # Borrar una carpeta canónica
+        import shutil
+        target_dir = self.root / "raw" / "transcripts"
+        if target_dir.exists():
+            shutil.rmtree(target_dir)
+        self.assertFalse(target_dir.exists())
+
+        code = main(["--vault-dir", str(self.root), "init"])
+        self.assertEqual(code, 0)
+        self.assertTrue(target_dir.exists())
+        self.assertTrue((target_dir / ".gitkeep").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
