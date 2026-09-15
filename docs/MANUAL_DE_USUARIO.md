@@ -1,6 +1,9 @@
-# Manual de Usuario: Knowledge Operating System (LLM Wiki)
+# Manual de Usuario y Guía Avanzada: Knowledge Operating System (LLM Wiki)
 
-Bienvenido al manual operativo del **Knowledge Operating System**. Esta guía te enseñará cómo utilizar tu baúl de Obsidian potenciado por modelos de lenguaje (LLM) y gobernado por el kernel determinístico `wikictl`.
+Bienvenido al manual operativo y guía técnica del **Knowledge Operating System**. Este documento está especialmente diseñado para **usuarios avanzados, desarrolladores e ingenieros de conocimiento** que desean dominar el sistema a través de su interfaz de línea de comandos (`wikictl`), automatizar flujos con Git, auditar la integridad del grafo y ejecutar investigaciones y síntesis profundas.
+
+> [!NOTE]
+> Si buscas una introducción rápida y conversacional para comenzar en 3 pasos con tu asistente de IA habitual (sin usar comandos de consola), consulta el [README.md](../README.md).
 
 ---
 
@@ -88,48 +91,152 @@ knowledge: promote mi-articulo
 
 ---
 
-## 4. Guía de Comandos de `wikictl`
+## 4. Referencia Exhaustiva de Comandos `wikictl` (CLI)
 
-| Comando | Función | Modifica Disco |
-| :--- | :--- | :---: |
-| `./wikictl/wikictl init` | Recrea y verifica toda la estructura de carpetas canónicas si alguna fue borrada. | Solo carpetas vacías |
-| `./wikictl/wikictl lint` | Audita enlaces rotos, esquemas YAML inválidos, notas huérfanas y revisiones vencidas. | No |
-| `./wikictl/wikictl ingest <fuente>` | Registra evidencia cruda y prepara la plantilla en `.work/ingest/<slug>.yaml`. | Solo en `.work/` |
-| `./wikictl/wikictl promote <slug> --dry-run` | Muestra el diff de cambios propuestos sin tocar el baúl. | No |
-| `./wikictl/wikictl promote <slug> --apply` | Aplica la creación y actualización de notas en `wiki/`. | **Sí (validado)** |
-| `./wikictl/wikictl promote <slug> --apply --commit` | Aplica los cambios y genera un commit semántico en Git. | **Sí** |
-| `./wikictl/wikictl research "<pregunta>"` | Genera un andamiaje de investigación estructurada en `research/`. | Solo en `research/` |
-| `./wikictl/wikictl synthesize "<tema>"` | Genera un andamiaje de síntesis transversal en `wiki/synthesis/`. | Solo en `wiki/` |
-| `./wikictl/wikictl impact "<nota>"` | Muestra el árbol de impacto de dependencias si vas a modificar una nota. | No |
-| `./wikictl/wikictl publish "<nota>" --target substack` | Limpia wikilinks y genera un borrador para publicación en `published/`. | Solo en `published/` |
+`wikictl` es el kernel determinístico del sistema. Está diseñado para ejecutarse de forma segura tanto por humanos en la terminal como por agentes autónomos y pipelines de CI/CD.
+
+### Resumen de Comandos
+
+| Comando | Función Principal | Flags Clave | Modifica Disco |
+| :--- | :--- | :--- | :---: |
+| `init` | Restaura la estructura canónica de directorios y `.gitkeep`. | *(ninguno)* | Solo crea carpetas faltantes |
+| `lint` | Audita salud del baúl (links rotos, frontmatter, huérfanos). | `--strict`, `--json` | No |
+| `ingest` | Registra evidencia inmutable en `raw/` y genera plantilla YAML. | `<fuente>` | Solo en `.work/` |
+| `promote` | Valida, previsualiza y aplica cambios a `wiki/`. | `--dry-run`, `--apply`, `--commit` | **Sí (con `--apply`)** |
+| `research` | Inicializa un andamiaje de investigación en `research/`. | `<pregunta>` | Solo en `research/` |
+| `synthesize` | Genera una nota de síntesis transversal en `wiki/synthesis/`. | `--sources <nota1> <nota2>` | Solo en `wiki/` |
+| `impact` | Muestra el grafo de dependencias y blast radius de una nota. | `<nota>` | No |
+| `publish` | Limpia wikilinks y compila un borrador para distribución externa. | `--target <formato>` | Solo en `published/` |
+
+---
+
+### Detalle de Comandos y Ejemplos de Terminal
+
+#### 1. `wikictl init`
+Recrea la estructura completa de carpetas canónicas (`raw/notes`, `raw/clippings`, `wiki/concepts`, etc.) en caso de que hayan sido eliminadas o no clonadas por Git:
+```bash
+./wikictl/wikictl init
+```
+
+#### 2. `wikictl lint`
+Valida la integridad estructural del baúl. Detecta:
+- Enlaces internos rotos (`[[Nota Inexistente]]`).
+- Frontmatter YAML malformado o con campos obligatorios faltantes (`type`, `title`, `status`, `created`, `updated`, `confidence`).
+- Notas huérfanas (sin enlaces entrantes ni salientes).
+- Revisiones de conocimiento volátil vencidas (`review_after`).
+
+```bash
+# Modo estándar con reporte visual en consola
+./wikictl/wikictl lint
+
+# Modo estricto: retorna código de salida != 0 ante cualquier advertencia (ideal para pre-commit o CI)
+./wikictl/wikictl lint --strict
+
+# Modo JSON estructurado: ideal para scripts bash o ingestión por agentes
+./wikictl/wikictl lint --json
+```
+
+#### 3. `wikictl ingest <fuente>`
+Registra un documento ubicado en `raw/` como evidencia histórica inmutable. Calcula su checksum SHA-256 y crea el artefacto intermedio en `.work/ingest/<slug>.yaml`:
+```bash
+./wikictl/wikictl ingest raw/articles/karpathy-llm-os.md
+```
+
+#### 4. `wikictl promote <slug>`
+Aplica el principio de aislamiento del filesystem. Compara el archivo estructurado en `.work/ingest/<slug>.yaml` con el estado actual de `wiki/`.
+- **`--dry-run` (por defecto)**: Genera un diff unificado y coloreado en terminal mostrando exactamente qué notas se crearían o modificarían sin alterar ningún archivo:
+  ```bash
+  ./wikictl/wikictl promote karpathy-llm-os --dry-run
+  ```
+- **`--apply`**: Escribe de manera atómica las notas en `wiki/` tras validar esquemas y links:
+  ```bash
+  ./wikictl/wikictl promote karpathy-llm-os --apply
+  ```
+- **`--apply --commit`**: Escribe los cambios y genera de inmediato un commit descriptivo y semántico en Git:
+  ```bash
+  ./wikictl/wikictl promote karpathy-llm-os --apply --commit
+  ```
+
+#### 5. `wikictl research "<pregunta>"`
+Crea una investigación guiada en `research/` para responder preguntas complejas o estructurar exploraciones temáticas:
+```bash
+./wikictl/wikictl research "¿Cómo optimizar la memoria extendida con IA?"
+```
+
+#### 6. `wikictl synthesize "<tema>" --sources <notas...>`
+Genera una nota transversal en `wiki/synthesis/` que contrasta e integra múltiples notas existentes:
+```bash
+./wikictl/wikictl synthesize "Patrones de Agentes Autónomos" --sources "Model Context Protocol" "Tool Use" "ReAct Framework"
+```
+
+#### 7. `wikictl impact "<nota>"`
+Evalúa el "blast radius" o impacto antes de modificar, renombrar o deprecicar una nota. Lista todas las notas, proyectos, síntesis o publicaciones que dependen de ella:
+```bash
+./wikictl/wikictl impact "Cognitive Offloading"
+```
+
+#### 8. `wikictl publish "<nota>" --target <plataforma>`
+Toma una nota consolidada o síntesis de `wiki/`, sustituye o expande los wikilinks internos por texto legible, verifica advertencias de privacidad y crea un borrador listo para exportar en `published/`:
+```bash
+# Para Substack o newsletters
+./wikictl/wikictl publish "Cognitive Offloading" --target substack
+
+# Para blogs técnicos o documentación en Markdown plano
+./wikictl/wikictl publish "Cognitive Offloading" --target blog
+```
 
 ---
 
 ## 5. Modalidades de Uso según el Perfil
 
-### Modo A: Principiante (Chat Conversacional)
-No necesitas memorizar comandos. En tu chat con el LLM:
-1. Pega el texto o di: *"Quiero incorporar el paper que puse en `raw/articles/ia-memoria.md`"*.
-2. El LLM te explicará en lenguaje natural:
-   > *"He analizado el documento. Propongo crear 2 conceptos nuevos (`Descarga Cognitiva` y `Andamiaje Cognitivo`) y actualizar la nota de `Obsidian` para enlazarla. Este es el diff que aplicaría..."*
-3. Le respondes: *"Adelante, aplícalo"*.
-4. El LLM ejecutará internamente `./wikictl/wikictl promote ia-memoria --apply --commit` y te confirmará la acción.
+### Modalidad Avanzada: Flujo de Consola y Automatización (CLI)
 
-### Modo B: Avanzado (CLI y Automatización)
-Puedes ejecutar directamente los comandos desde tu consola habitual:
+Los usuarios avanzados y desarrolladores pueden utilizar `wikictl` directamente en su terminal para mantener el baúl con máxima precisión:
+
 ```bash
-# Auditar salud del baúl
-./wikictl/wikictl lint --strict
+# Secuencia completa de incorporación de nuevo conocimiento:
+# 1. Guardar la evidencia
+cp ~/Downloads/paper.pdf raw/papers/paper.pdf
+pdftotext raw/papers/paper.pdf raw/papers/paper.txt
 
-# Ver salida estructurada en JSON para scripts o CI
-./wikictl/wikictl lint --json
+# 2. Iniciar el registro de ingesta
+./wikictl/wikictl ingest raw/papers/paper.txt
+
+# 3. Tras completar .work/ingest/paper.yaml (manualmente o con tu agente):
+# Previsualizar el diff
+./wikictl/wikictl promote paper --dry-run
+
+# 4. Aplicar y commitear
+./wikictl/wikictl promote paper --apply --commit
+
+# 5. Auditar integridad del baúl tras la incorporación
+./wikictl/wikictl lint --strict
 ```
 
-### Modo C: Entornos sin Terminal ni Python (Agent-Native Fallback)
-Si estás utilizando Obsidian en un móvil o una tablet, o interactuando en la web de Claude.ai/ChatGPT sin acceso a consola:
-- `AGENTS.md` le instruye al modelo para que **emule mentalmente las validaciones de `wikictl`**.
-- El modelo te entregará el código Markdown completo listo para copiar, indicándote la ruta exacta:
-  > *"Copia este contenido en: `wiki/concepts/mi-concepto.md`"*
+#### Integración en Pre-Commit Hooks de Git
+Puedes asegurar que nunca se comitee una nota con frontmatter inválido o enlaces rotos agregando lo siguiente a `.git/hooks/pre-commit`:
+```bash
+#!/usr/bin/env bash
+./wikictl/wikictl lint --strict
+```
+
+---
+
+### Modalidad Asistida: Chat Conversacional (Principiantes o IDEs)
+
+Para flujos dentro de IDEs o chats con LLMs (Cursor, Antigravity, Claude Code, Aider, ChatGPT):
+1. Comparte un archivo o texto de `raw/` y di: *"Quiero incorporar este documento a la wiki"*.
+2. El LLM consulta `AGENTS.md`, extrae afirmaciones clave distinguiendo hechos de inferencias, prepara `.work/ingest/` y te muestra la propuesta:
+   > *"Propongo crear el concepto `wiki/concepts/mi-concepto.md` y actualizar `wiki/technologies/otra.md`. ¿Estás de acuerdo?"*
+3. Con tu visto bueno (*"Aplica los cambios"*), el agente ejecuta `./wikictl/wikictl promote <slug> --apply --commit` de manera transparente.
+
+---
+
+### Modalidad C: Entornos sin Terminal ni Python (Agent-Native Fallback)
+Si estás utilizando Obsidian en un móvil, tablet o interfaz web sin acceso a consola ni Python:
+- `AGENTS.md` le instruye al modelo para que **emule mentalmente las validaciones de `wikictl`** (esquemas frontmatter, separación hechos/inferencias y enlaces canónicos).
+- El modelo genera el código Markdown completo y te da las instrucciones directas de guardado:
+  > *"Guarda este contenido en el archivo: `wiki/concepts/mi-concepto.md`"*
 
 ---
 

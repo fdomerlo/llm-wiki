@@ -111,48 +111,33 @@ Para que Obsidian trabaje en perfecta armonía con el sistema, aplica estas conf
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Inicio Rápido en 3 Pasos
 
-### Modalidad A: Para Principiantes (Modo Chat / Conversacional)
+No necesitas memorizar comandos de consola ni configurar entornos complejos. El sistema está diseñado para que cualquier persona comience a construir su base de conocimiento conversando con su asistente de IA favorito (**Antigravity, Claude Code, Cursor, Aider, ChatGPT, etc.**):
 
-Si usas un asistente como **Antigravity, Claude Code, Cursor, Aider o ChatGPT**:
-1. Coloca un documento o texto en `raw/articles/mi-nota.md` (o simplemente compártelo en el chat).
-2. Dile al LLM en lenguaje natural:
-   > *"Quiero incorporar este documento a la wiki"*.
-3. El LLM (guiado por `AGENTS.md`) analizará la fuente, distinguirá Hechos de Inferencias, creará el artefacto en `.work/ingest/` y te mostrará el plan con un diff seguro:
-   > *"Propongo crear el concepto `wiki/concepts/mi-concepto.md` y actualizar `wiki/technologies/otra.md`. ¿Estás de acuerdo?"*
-4. Al darle tu visto bueno, el agente ejecuta la promoción y registra el commit en Git.
+### 1. Abre el repositorio en Obsidian
+Clona este repositorio y ábrelo como un Baúl existente (**Open folder as vault**) en Obsidian.
+*(Opcional: sigue los 3 ajustes recomendados en la sección [Configuración de Obsidian](#️-configuración-recomendada-de-obsidian) para que tus capturas se guarden ordenadas automáticamente).*
 
-### Modalidad B: Para Usuarios Avanzados (Modo CLI)
+### 2. Agrega tu primer material
+Guarda un texto, artículo web, transcripción o nota rápida en `raw/notes/` o `raw/articles/` (o simplemente pega el contenido directamente en tu conversación con el LLM).
 
-```bash
-# 1. Verificar la integridad de la estructura de carpetas
-./wikictl/wikictl init
+### 3. Pídele al LLM que lo incorpore
+Dile a tu asistente en lenguaje natural:
+> *"Quiero incorporar este documento a la wiki"*
 
-# 2. Auditar la salud del Baúl (enlaces rotos, esquemas, notas huérfanas)
-./wikictl/wikictl lint
+El asistente (instruido automáticamente por el protocolo [`AGENTS.md`](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/AGENTS.md)):
+- Lee y analiza el material distinguiendo rigurosamente **hechos** de **inferencias**.
+- Identifica conceptos clave, tecnologías, autores o debates preexistentes.
+- Prepara una propuesta estructurada y te muestra un **diff claro y seguro** antes de escribir en disco:
+  > *"Propongo crear el concepto `wiki/concepts/descarga-cognitiva.md` y actualizar `wiki/technologies/obsidian.md`. ¿Estás de acuerdo?"*
+- Tras tu confirmación (*"Adelante"*), aplica los cambios atómicamente y genera un commit en Git.
 
-# 3. Registrar una fuente en raw/ para análisis
-./wikictl/wikictl ingest raw/articles/paper.md
+---
 
-# 4. Ver el diff propuesto sin tocar disco (Modo seguro por defecto)
-./wikictl/wikictl promote paper --dry-run
-
-# 5. Aplicar los cambios y registrar un commit descriptivo en Git
-./wikictl/wikictl promote paper --apply --commit
-
-# 6. Investigar una pregunta temática
-./wikictl/wikictl research "¿Cómo optimizar la memoria extendida con IA?"
-
-# 7. Crear una síntesis comparativa entre notas
-./wikictl/wikictl synthesize "Patrones de Agentes" --sources "MCP" "Tool Use"
-
-# 8. Analizar qué notas se verían afectadas si modificas un concepto
-./wikictl/wikictl impact "Cognitive Offloading"
-
-# 9. Preparar un borrador para publicación externa
-./wikictl/wikictl publish "Cognitive Offloading" --target substack
-```
+> [!TIP]
+> ### 🛠️ ¿Eres usuario avanzado o prefieres la terminal?
+> Para la suite completa de comandos CLI (`wikictl`), flags de automatización (`--dry-run`, `--apply`, `--commit`, `--strict`, `--json`), auditoría manual del baúl y flujos avanzados de investigación y publicación, consulta el **[Manual de Usuario y Guía Avanzada](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md)**.
 
 ---
 
@@ -168,6 +153,6 @@ PYTHONPATH=wikictl/src python3 -m unittest discover -s wikictl/tests
 
 ## 📚 Documentación Adicional
 
-- [Manual Completo de Usuario](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md): Flujos detallados, convenciones y guía para Obsidian.
+- [Manual de Usuario y Guía Avanzada](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md): Referencia completa de comandos CLI, flujos avanzados, automatización y configuración del baúl.
 - [Protocolo AGENTS.md](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/AGENTS.md): Reglas epistemológicas y directivas operativas para agentes.
 - [Especificación Fundacional](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/PROJECT_FOUNDATION.md): Fundamentos teóricos y diseño conceptual original.
