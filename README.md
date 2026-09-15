@@ -1,5 +1,9 @@
 # LLM Wiki — Knowledge Operating System
 
+<p align="center">
+  <img src="docs/assets/social-preview.png" alt="LLM Wiki — Knowledge Operating System" width="100%">
+</p>
+
 Un **Sistema Operativo del Conocimiento personal** basado en **Obsidian + Markdown + Git**, operado bajo el paradigma **"LLM-as-Operator"** y protegido por un kernel determinístico con **cero dependencias externas** (`wikictl`).
 
 Inspirado en la visión de Andrej Karpathy sobre el uso de Modelos de Lenguaje como curadores, bibliotecarios y analistas críticos de una base de conocimiento viva y acumulativa.
