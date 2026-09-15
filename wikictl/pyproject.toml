@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wikictl"
+version = "0.1.0"
+description = "Kernel determinístico y CLI para el Knowledge Operating System (LLM Wiki) con Obsidian y Git"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Knowledge OS" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.scripts]
+wikictl = "wikictl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

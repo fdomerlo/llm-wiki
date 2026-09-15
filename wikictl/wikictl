@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Ejecutable directo de wikictl para su uso sin instalación previa."""
+
+import os
+import sys
+from pathlib import Path
+
+# Añadir directorio 'src' al PYTHONPATH dinámicamente
+current_dir = Path(__file__).resolve().parent
+src_dir = current_dir / "src"
+if src_dir.exists():
+    sys.path.insert(0, str(src_dir))
+
+from wikictl.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())
