@@ -58,8 +58,15 @@ llm.wiki/
 ├── README.md                                   # Esta guía
 ├── docs/                                       # Documentación y especificación fundacional
 │   ├── MANUAL_DE_USUARIO.md                    # Manual detallado paso a paso
-│   └── knowledge_operating_system.md           # Especificación arquitectónica original
-├── raw/                                        # Evidencia inmutable (papers, libros, artículos, audios)
+│   └── PROJECT_FOUNDATION.md                   # Especificación arquitectónica original
+├── raw/                                        # Evidencia inmutable (notes, clippings, papers, books)
+│   ├── notes/                                  # Notas rápidas y notas nuevas por defecto
+│   ├── clippings/                              # Recortes del plugin Obsidian Web Clipper
+│   ├── articles/                               # Artículos y lecturas web
+│   ├── papers/                                 # Papers académicos
+│   ├── books/                                  # Resúmenes y notas de libros
+│   ├── transcripts/                            # Transcripciones de audio o video
+│   └── attachments/                            # Adjuntos (imágenes, audios, PDFs)
 ├── wiki/                                       # Conocimiento consolidado y atómico (reutilizable)
 │   ├── concepts/                               # Conceptos y modelos mentales
 │   ├── people/                                 # Autores y figuras clave
@@ -80,6 +87,23 @@ llm.wiki/
 > ```bash
 > ./wikictl/wikictl init
 > ```
+
+---
+
+## ⚙️ Configuración Recomendada de Obsidian
+
+Para que Obsidian trabaje en perfecta armonía con el sistema, aplica estas configuraciones en **Ajustes (`Settings`)**:
+
+1. **Ubicación de nuevas notas (`Archivos y enlaces` / `Files and links`)**:
+   - *Ubicación de notas nuevas por defecto*: `En la carpeta especificada a continuación` → `raw/notes` (para que cualquier nota creada manualmente o con atajo quede en `raw/` como evidencia preliminar sin procesar).
+   - *Ubicación de archivos adjuntos*: `En la carpeta especificada a continuación` → `raw/attachments`.
+2. **Enlaces (`Files and links`)**:
+   - *Usar [[Wikilinks]]*: **Activado** (`ON`).
+   - *Formato de enlaces nuevo*: `Ruta más corta cuando sea posible` (`Shortest path when possible`).
+   - *Detectar todas las extensiones de archivo*: **Activado** (`ON`) para ver PDFs, audios y datasets en el explorador.
+3. **Obsidian Web Clipper (Extensión de Navegador)**:
+   - Configura la ruta de guardado a: `raw/clippings/`
+   - Así, cualquier artículo o captura web cae automáticamente como evidencia pura en `raw/` lista para ser analizada e ingesta.
 
 ---
 
@@ -142,4 +166,4 @@ PYTHONPATH=wikictl/src python3 -m unittest discover -s wikictl/tests
 
 - [Manual Completo de Usuario](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/MANUAL_DE_USUARIO.md): Flujos detallados, convenciones y guía para Obsidian.
 - [Protocolo AGENTS.md](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/AGENTS.md): Reglas epistemológicas y directivas operativas para agentes.
-- [Especificación Arquitectónica Original](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/knowledge_operating_system.md): Fundamentos teóricos y diseño conceptual.
+- [Especificación Fundacional](file:///home/fdomerlo/Proyectos/github.com/fdomerlo/llm.wiki/docs/PROJECT_FOUNDATION.md): Fundamentos teóricos y diseño conceptual original.

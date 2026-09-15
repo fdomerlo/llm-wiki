@@ -133,7 +133,41 @@ Si estás utilizando Obsidian en un móvil o una tablet, o interactuando en la w
 
 ---
 
-## 6. Preguntas Frecuentes (FAQ)
+## 6. Configuración Recomendada de Obsidian (Vault Setup)
+
+Para garantizar que el flujo de conocimiento sea 100% fluido y que cualquier nota o captura web caiga en el lugar correcto sin contaminar la wiki consolidada, configura Obsidian con estos parámetros en **Ajustes (`Settings`)**:
+
+### A. Ubicación de Notas Nuevas (`Archivos y enlaces` / `Files and links`)
+- **Ubicación por defecto para notas nuevas**: Selecciona `En la carpeta especificada a continuación` y escribe:
+  `raw/notes`  
+  *(Esto garantiza que cuando presiones `Ctrl/Cmd + N` o crees una nota rápida, nazca como evidencia cruda en `raw/notes/` y nunca directamente en `wiki/` sin procesar).*
+- **Ubicación por defecto para nuevos archivos adjuntos**: Selecciona `En la carpeta especificada a continuación` y escribe:
+  `raw/attachments`  
+  *(Así, cualquier imagen que pegues, PDF o grabación quedará resguardada como evidencia inmutable).*
+
+### B. Enlaces Internos (`Archivos y enlaces`)
+- **Usar [[Wikilinks]]**: **Activado** (`ON`).
+- **Formato de enlaces nuevo**: `Ruta más corta cuando sea posible` (`Shortest path when possible`).
+- **Detectar todas las extensiones de archivo**: **Activado** (`ON`). Te permitirá ver archivos `.pdf`, `.yaml`, `.csv`, etc. dentro del explorador lateral de Obsidian.
+
+### C. Obsidian Web Clipper (Extensión de Navegador)
+Si utilizas el plugin oficial de Obsidian para capturar artículos o documentación desde tu navegador web:
+- **Carpeta de destino**: Configura la ruta a `raw/clippings/`.
+- **Plantilla de captura**: Puedes guardar el contenido completo del artículo con metadatos de URL y fecha de captura.
+- **Flujo resultante**: El artículo queda guardado en `raw/clippings/<articulo>.md`, listo para que ejecutes:
+  ```bash
+  ./wikictl/wikictl ingest raw/clippings/<articulo>.md
+  ./wikictl/wikictl promote <articulo> --dry-run
+  ```
+
+### D. Plugins Opcionales Recomendados
+1. **Dataview**: Permite crear tablas dinámicas y tableros de control en notas de índice (`index.md`) de tus proyectos para consultar notas por etiquetas, tipo o fecha.
+2. **Omnisearch**: Búsqueda difusa profunda de texto completo y contenido dentro de PDFs e imágenes.
+3. **Graph View (Nativo)**: Activa filtros por color en el grafo de Obsidian (por ejemplo, verde para `wiki/concepts`, azul para `wiki/technologies`, rojo para `raw/`).
+
+---
+
+## 7. Preguntas Frecuentes (FAQ)
 
 ### ¿Qué pasa si borro carpetas vacías o clono el repositorio sin ellas?
 Git no rastrea carpetas vacías por defecto. Si borraste carpetas o clonaste el repo, simplemente corre:
