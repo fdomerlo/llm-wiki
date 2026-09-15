@@ -1,6 +1,6 @@
-# LLM-Wiki Lite — Sistema Operativo de Conocimiento Documental
+# LLM-Wiki — Sistema Operativo de Conocimiento Documental
 
-Un **baul de conocimiento personal y tecnico** basado en **Obsidian + Markdown**, disenado bajo el paradigma **LLM-as-Operator** en su variante **Lite**: puramente documental, sin scripts CLI intermediarios ni dependencias de software externas, donde la **disciplina epistemologica**, la **verbosidad guiada** y la **obediencia del LLM** aseguran la coherencia del conocimiento.
+Una **Wiki personal y tecnica** basado en **Obsidian + Markdown**, inspirado en la visión de Andrej Karpathy sobre el uso de Modelos de Lenguaje como curadores, bibliotecarios y analistas críticos de una base de conocimiento viva y acumulativa.
 
 ---
 
@@ -8,7 +8,7 @@ Un **baul de conocimiento personal y tecnico** basado en **Obsidian + Markdown**
 
 El objetivo de este repositorio es transformar a cualquier Modelo de Lenguaje (LLM) en un **bibliotecario, analista y custodio activo** de tu base de conocimiento, en lugar de un mero generador pasivo de texto.
 
-### La Triada del Sistema
+### Los fundamentos del Sistema
 - **`raw/` contiene lo que otros dijeron:** Evidencia historica inmutable (articulos, transcripciones, especificaciones).
 - **`wiki/` contiene lo que sabemos:** Conocimiento destilado, atomico y conectado mediante enlaces bidireccionales.
 - **`projects/` contiene lo que construimos:** Espacios aislados donde el conocimiento se aplica a dominios y proyectos tecnicos especificos.
@@ -38,7 +38,7 @@ Si dos fuentes o proyectos discrepan tecnicamente (por ejemplo, invalidacion de 
 ## 📂 Topologia del Repositorio
 
 ```text
-llm.wiki.2/
+llm-wiki/
 ├── AGENTS.md                  # Protocolo global del Orquestador del baul
 ├── README.md                  # Esta guia de uso y arquitectura
 ├── index.md                   # Tablero general con consultas Dataview
@@ -50,7 +50,7 @@ llm.wiki.2/
 │   ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
 │   └── tpl_OKF.md             # Generador de proyectos OKF
 └── projects/                  # Directorio de proyectos autonomos
-    └── Cache-Strategy-Lab/    # Ejemplo de proyecto activo
+    └── mi-proyecto-actual/    # Ejemplo de proyecto activo
         ├── AGENTS.md          # Protocolo del Agente Local de proyecto
         ├── index.md           # Tablero y metricas del proyecto
         ├── log.md             # Bitacora de ingestas y cambios locales
@@ -71,7 +71,7 @@ El sistema define dos roles de agente claramente delimitados:
 
 | Rol | Ubicacion de su Protocolo | Ambito de Escritura | Responsabilidad Principal |
 | :--- | :--- | :--- | :--- |
-| **Orquestador Global** | `llm.wiki.2/AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
+| **Orquestador Global** | `llm-wiki/AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
 | **Agente Local** | `projects/<nombre>/AGENTS.md` | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
 
 > [!IMPORTANT]
@@ -145,4 +145,4 @@ Para aprovechar al maximo este baul documental:
    - Configurar la carpeta de plantillas apuntando a `system/`.
 3. **Ajustes Nativos de Archivos y Enlaces:**
    - **Formato de enlaces nuevo:** Usar enlaces tipo Wikilink (`[[...]]`).
-   - **Ruta de creacion de notas nuevas:** En la misma carpeta que el archivo actual o carpeta especificada.
+   - **Ruta de creacion de notas nuevas:** Apuntando a la carpeta `raw/`.
