@@ -10,7 +10,7 @@ El objetivo de este repositorio es transformar a cualquier Modelo de Lenguaje (L
 
 ### Los fundamentos del Sistema
 - **`raw/` contiene lo que otros dijeron:** Evidencia historica inmutable (articulos, transcripciones, especificaciones).
-- **`wiki/` contiene lo que sabemos:** Conocimiento destilado, atomico y conectado mediante enlaces bidireccionales.
+- **`wiki/` contiene lo que sabemos:** Conocimiento destilado, atomico y conectado mediante enlaces bidireccionales. En la raiz aloja `wiki/sintesis/` generada dinamicamente para comparativas globales.
 - **`projects/` contiene lo que construimos:** Espacios aislados donde el conocimiento se aplica a dominios y proyectos tecnicos especificos.
 
 ---
@@ -27,7 +27,12 @@ Todo contenido generado o sintetizado por un LLM en este baul debe distinguirse 
 - **INFERENCIA (Inference):** Conjetura, hipotesis o recomendacion externa del modelo. Debe marcarse explicitamente (`*Inferencia:* ...` o `certeza: media/baja`).
 
 ### 3. Preservacion de Conflictos (Sin Consenso Artificial)
-Si dos fuentes o proyectos discrepan tecnicamente (por ejemplo, invalidacion de cache por TTL vs. invalidacion reactiva con CDC), el LLM **no debe ocultar ni reconciliar forzosamente la diferencia**. Se documentan ambos enfoques, sus pros, sus contras y el contexto de cada decision.
+Si dos fuentes o proyectos discrepan tecnicamente (por ejemplo, invalidacion de cache por TTL vs. invalidacion reactiva con CDC), el LLM **no debe ocultar ni reconciliar forzosamente la diferencia**. Se documentan formalmente en los metadatos YAML:
+```yaml
+conflicto_con:
+  - "[[Nota-Discrepante]]"
+motivo_conflicto: "Divergencia entre consistencia eventual y latencia ultra-baja"
+```
 
 ### 4. Convencion Linguistica y Nomenclatura Segura (Safe-Spanish)
 - El baul opera íntegramente en **espanol**.
@@ -41,16 +46,20 @@ Si dos fuentes o proyectos discrepan tecnicamente (por ejemplo, invalidacion de 
 llm-wiki/
 ├── AGENTS.md                  # Protocolo global del Orquestador del baul
 ├── README.md                  # Esta guia de uso y arquitectura
+├── CLAUDE.md / .cursorrules   # Instrucciones contextuales para asistentes de IA
 ├── index.md                   # Tablero general con consultas Dataview
 ├── log.md                     # Bitacora cronologica de operaciones globales
 ├── raw/                       # Evidencia transversal global (inmutable)
 ├── wiki/                      # Conocimiento destilado transversal
-│   └── sintesis/              # Matrices comparativas entre proyectos
-├── system/                    # Plantillas del sistema (Templater)
+│   └── sintesis/              # Matrices comparativas entre proyectos (dinamica)
+├── system/                    # Catalogo de plantillas del sistema (Templater)
 │   ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
-│   └── tpl_OKF.md             # Generador de proyectos OKF
+│   ├── tpl_OKF.md             # Generador de proyectos OKF
+│   ├── tpl_CONCEPTO.md        # Plantilla atomica de conceptos
+│   ├── tpl_ARQUITECTURA.md    # Plantilla ADR de arquitectura
+│   └── tpl_SINTESIS.md        # Plantilla de matrices comparativas
 └── projects/                  # Directorio de proyectos autonomos
-    └── mi-baul-obsidian/      # Ejemplo de proyecto activo y guia
+    └── mi-baul-obsidian/      # Proyecto modelo y guia practica
         ├── AGENTS.md          # Protocolo del Agente Local de proyecto
         ├── index.md           # Tablero y metricas del proyecto
         ├── log.md             # Bitacora de ingestas y cambios locales
@@ -82,7 +91,7 @@ El sistema define dos roles de agente claramente delimitados:
 ## 🚀 Guia de Uso y Flujos Operativos
 
 ### Flujo A: Crear un Nuevo Proyecto
-Existen dos formas de iniciar un proyecto en `projects/` :
+Existen dos formas de iniciar un proyecto en `projects/`:
 
 1. **Desde Obsidian con Templater:**
    - Ejecuta el comando *Templater: Open Insert Template Modal*.
@@ -101,7 +110,7 @@ Cuando agregues un nuevo articulo, paper o nota en la carpeta `raw/` de un proye
 
 1. Coloca el archivo en `projects/<proyecto>/raw/<fuente>.md`.
 2. Asigna la instruccion al LLM en modo Agente Local:
-   > *"Actua como Agente Local de mi-baul-obsidian segun su AGENTS.md. Procesa la fuente raw/01-principios-karpathy.md ejecutando el Protocolo de Ingesta."*
+   > *"Actua como Agente Local de mi-baul-obsidian segun su AGENTS.md. Procesa la fuente raw/01-principios-karpathy-llm-wiki.md ejecutando el Protocolo de Ingesta."*
 3. El LLM realizara:
    - Resumen estructurado en `wiki/resumenes/`.
    - Creacion o actualizacion de notas atomicas en `wiki/conceptos/`, `wiki/arquitectura/` o `wiki/entidades/` con enlaces bidireccionales.
@@ -116,7 +125,7 @@ Cuando desees comparar enfoques o contrastar como diferentes proyectos resuelven
    > *"Actua como Orquestador Global del baul segun AGENTS.md. Compara las estrategias de gestion de estado entre mi-baul-obsidian y Auth-Service. Crea la sintesis comparativa correspondiente."*
 2. El LLM:
    - Lee los indices y notas pertinentes de ambos proyectos.
-   - Genera una nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con tabla comparativa y analisis de trade-offs.
+   - Crea `wiki/sintesis/` dinamicamente si no existe y genera la nota `[[Comparativa-<Tema>.md]]` con tabla comparativa y analisis de trade-offs.
    - Actualiza el meta-indice [[index|index.md]] y registra el evento en [[log|log.md]].
 
 ---
@@ -134,15 +143,30 @@ Para verificar la salud y consistencia del baul:
 
 ---
 
+### Flujo E: Jardineria Semantica y Compilacion Continua
+Para evolucionar la base de conocimiento sin dejar notas desvinculadas o redundantes:
+
+1. Solicita al LLM:
+   > *"Ejecuta una sesion de jardineria semantica segun el Protocolo E de AGENTS.md."*
+2. El LLM realizara:
+   - **Deteccion de Stubs:** Identifica enlaces `[[...]]` citados que aun no tienen archivo fisico y propone borradores iniciales usando `system/tpl_CONCEPTO.md`.
+   - **Deduplicacion y Alias:** Localiza notas solapadas y propone unificarlas bajo la nota canonica agregando alias YAML.
+   - **Mapeo Tematico (MOC):** Agrupa clusters conceptuales para enriquecer los indices de navegacion.
+
+---
+
 ## ⚙️ Configuracion Recomendada de Obsidian
 
 Para aprovechar al maximo este baul documental:
 
 1. **Plugin Dataview:**
    - Activar *Enable JavaScript Queries* y *Enable Inline Queries*.
-   - Permite que los tableros de `index.md` (global y locales) muestren automaticamente las notas clasificadas y su fecha de actividad.
+   - Permite que los tableros de `index.md` (global y locales) muestren automaticamente las notas clasificadas, debates abiertos y su fecha de actividad.
 2. **Plugin Templater:**
    - Configurar la carpeta de plantillas apuntando a `system/`.
-3. **Ajustes Nativos de Archivos y Enlaces:**
+3. **Plugins Semanticos Complementarios (Opcionales):**
+   - **Omnisearch:** Busqueda difusa profunda, indexacion instantanea y OCR de diagramas.
+   - **Smart Connections:** Calculo de embeddings locales sobre `wiki/` sin tocar `raw/`, facilitando recomendaciones de notas relacionadas durante la redaccion.
+4. **Ajustes Nativos de Archivos y Enlaces:**
    - **Formato de enlaces nuevo:** Usar enlaces tipo Wikilink (`[[...]]`).
    - **Ruta de creacion de notas nuevas:** Apuntando a la carpeta `raw/`.

@@ -19,15 +19,20 @@ llm-wiki/
 │   └── <nombre-proyecto>/     # Cada proyecto tiene su propio AGENTS.md y log.md
 ├── raw/                       # Evidencia inmutable transversal (si aplica a nivel global)
 ├── wiki/                      # Conocimiento destilado transversal
-│   └── sintesis/              # Sintesis cruzadas y comparativas entre proyectos
+│   └── sintesis/              # Sintesis cruzadas entre proyectos (creada dinamicamente)
 └── system/                    # Plantillas y configuraciones del baul
+    ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
+    ├── tpl_OKF.md             # Generador de proyectos OKF
+    ├── tpl_CONCEPTO.md        # Plantilla atomica de conceptos
+    ├── tpl_ARQUITECTURA.md    # Plantilla ADR de arquitectura
+    └── tpl_SINTESIS.md        # Plantilla de matrices comparativas
 ```
 
 ### Limites de Escritura y Fronteras de Seguridad
 - **Ambito Exclusivo de Escritura Global:**
   - `index.md` (raiz)
   - `log.md` (raiz)
-  - `wiki/sintesis/` (notas de sintesis comparativa transversal)
+  - `wiki/sintesis/` (notas de sintesis comparativa transversal; se crea dinamicamente si no existe)
 - **Principio de No Invasion Local:**
   - Los directorios bajo `projects/<nombre>/` son autonomos. **NO** crees, edites ni borres archivos dentro de un proyecto a menos que el usuario te asigne explicitamente el rol de Agente Local para ese proyecto concreto.
 - **Inmutabilidad de `raw/`:**
@@ -42,8 +47,14 @@ Toda afirmacion, sintesis o conclusion que proceses debe clasificarse bajo tres 
 2. **INTERPRETACION (Interpretation):** Sintesis tecnica, ordenamiento conceptual o abstraccion derivada directamente de las fuentes.
 3. **INFERENCIA (Inference):** Conjetura, proyeccion, recomendacion o hipotesis. Debe declararse explicitamente como tal (`*Inferencia:* ...` o con nivel de certeza).
 
+### Estandarizacion de Conflictos Técnicos
 > [!CAUTION]
-> **Prohibicion de Consenso Artificial:** Si dos proyectos resuelven el mismo problema con enfoques contradictorios (ej. invalidacion por TTL vs. CDC), **no intentes reconciliarlos forzadamente**. Documenta el contraste, los trade-offs y los motivos contextuales de cada enfoque.
+> **Prohibicion de Consenso Artificial:** Si dos proyectos o fuentes resuelven el mismo problema con enfoques contradictorios (ej. invalidacion por TTL vs. CDC), **no intentes reconciliarlos forzadamente**. Documenta el contraste, los trade-offs y los motivos contextuales de cada enfoque en los metadatos:
+> ```yaml
+> conflicto_con:
+>   - "[[projects/Otro-Proyecto/wiki/arquitectura/Enfoque-Alternativo]]"
+> motivo_conflicto: "Divergencia entre consistencia eventual y latencia ultra-baja"
+> ```
 
 ---
 
@@ -72,8 +83,9 @@ Para asegurar maxima compatibilidad tecnica y portabilidad en todo el baul:
 ### Protocolo B: Sintesis Cruzada (Cross-Project Query & Synthesis)
 **Objetivo:** Extraer patrones, comparar tecnologias o contrastar arquitecturas entre multiples proyectos.
 Cuando el usuario solicite analizar o comparar soluciones entre proyectos:
-1. **Lectura Aislada:** Lee los archivos `index.md` y las notas pertinentes dentro de cada `projects/<proyecto>/wiki/`.
-2. **Estructura de la Sintesis:** Crea una nueva nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con el siguiente Frontmatter YAML obligatorio:
+1. **Creacion Dinamica:** Si la carpeta `wiki/sintesis/` no existe, se inicializa dinamicamente.
+2. **Lectura Aislada:** Lee los archivos `index.md` y las notas pertinentes dentro de cada `projects/<proyecto>/wiki/`.
+3. **Estructura de la Sintesis:** Crea una nueva nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con el Frontmatter YAML obligatorio:
 
 ```yaml
 ---
@@ -89,15 +101,17 @@ proyectos_relacionados:
   - "[[projects/Proyecto-A/index|Proyecto-A]]"
   - "[[projects/Proyecto-B/index|Proyecto-B]]"
 certeza: alta | media | baja
+conflicto_con: []
+motivo_conflicto: ""
 ---
 ```
 
-3. **Cuerpo de la Nota:**
+4. **Cuerpo de la Nota:**
    - **Contexto y Pregunta Guia:** Que problema se analiza.
    - **Matriz Comparativa:** Tabla comparando decisiones, ventajas y desventajas.
-   - **Citas Precisas:** Referencia las notas locales mediante enlaces canonicos (ej. `[[projects/mi-baul-obsidian/wiki/arquitectura/Arquitectura-LLM-Wiki|Arquitectura LLM-Wiki]]`).
+   - **Citas Precisas:** Referencia las notas locales mediante enlaces canonicos (ej. `[[projects/mi-baul-obsidian/wiki/arquitectura/Patron-Arquitectura-LLM-Wiki|Patron Arquitectura LLM-Wiki]]`).
    - **Conclusion y Recomendaciones:** Destacar convergencias e inferencias.
-4. **Post-accion:** Actualiza `index.md` para incluir la nueva sintesis y anade la entrada correspondiente en `log.md`.
+5. **Post-accion:** Actualiza `index.md` para incluir la nueva sintesis y anade la entrada correspondiente en `log.md`.
 
 ---
 
@@ -123,7 +137,16 @@ El archivo `log.md` (en la raiz) debe actualizarse ante cualquier evento global 
 - **Detalle:** Descripcion concisa de los cambios realizados o la auditoria ejecutada.
 - **Artefactos afectados:** [[ruta/al/archivo]]
 ```
-Donde `<ACCION>` puede ser: `Init`, `Index`, `Sintesis`, `Lint`, `Nuevo-Proyecto`.
+Donde `<ACCION>` puede ser: `Init`, `Index`, `Sintesis`, `Lint`, `Nuevo-Proyecto`, `Jardineria`.
+
+---
+
+### Protocolo E: Jardineria Semantica y Compilacion Continua (Semantic Gardening)
+**Objetivo:** Evitar la fragmentacion y entropia del grafo de conocimiento con el paso del tiempo.
+Al ejecutar una sesion de jardineria semantica:
+1. **Deteccion de Vacios (Stubs):** Identifica menciones recurrentes a `[[Conceptos]]` referenciados en notas pero que carecen de archivo fisico. Genera propuestas de notas atómicas mínimas usando `system/tpl_CONCEPTO.md`.
+2. **Deduplicacion y Alias:** Si se detectan notas con contenidos o conceptos sinonimos o redundantes, propone unificar el conocimiento en la nota canónica principal e incorporar las variantes en el arreglo `alias:` del YAML.
+3. **Mapeo de Contenidos (MOC - Maps of Content):** Cuando una categoria o tema supere las 5 notas atomicas conexas, propone la creacion de una sintesis o indice tematico para agrupar visualmente la red conceptual.
 
 ---
 
@@ -135,4 +158,4 @@ Antes de dar por finalizada cualquier respuesta o tarea en el baul, el LLM debe 
 - [ ] ¿He utilizado rutas relativas actualizadas (`projects/`, `wiki/sintesis/`) y no nomenclaturas obsoletas?
 - [ ] ¿He diferenciado claramente hechos de inferencias en mis analisis?
 - [ ] ¿He respetado la convencion de caracteres seguros (sin `ñ` ni tildes en rutas, slugs y YAML)?
-- [ ] ¿He registrado la operacion en `log.md` si modifique el meta-indice o genere una sintesis global?
+- [ ] ¿He registrado la operacion en `log.md` si modifique el meta-indice, genere una sintesis global o ejecute jardineria?

@@ -71,8 +71,8 @@ Todo dato que incorpores o sintetices en la wiki debe categorizarse bajo tres ni
 > [!IMPORTANT]
 > **Preservacion de Conflictos y Evolucion:** Si una nueva fuente en \`raw/\` contradice una decision previa:
 > - **NO borres ni sobreescribas el conocimiento historico.**
-> - Marca la nota anterior con \`estado: superado\` y enlaza a la nueva nota vigente.
-> - Explica claramente el motivo del cambio en la seccion de evolucion de la nota.
+> - Documenta el conflicto en el frontmatter (\`conflicto_con\` y \`motivo_conflicto\`).
+> - Si sustituye formalmente una regla previa, marca la anterior como \`estado: superado\` y enlaza a la nueva nota vigente.
 
 ---
 
@@ -111,6 +111,8 @@ alias:
   - Sinonimo Uno
   - Nombre Alternativo
 certeza: alta | media | baja
+conflicto_con: []
+motivo_conflicto: ""
 ---
 \`\`\`
 
@@ -151,6 +153,12 @@ Cuando se solicite auditar la salud del proyecto:
 3. **Enlaces Rotos:** Detecta wikilinks que apunten a archivos inexistentes.
 4. **Emision de Reporte:** Presenta una lista clara clasificada en Errores y Advertencias.
 
+### Protocolo D: Jardineria Semantica Local
+Cuando se solicite mantenimiento o compilacion continua del proyecto:
+1. **Resolucion de Stubs:** Busca menciones de wikilinks sin nota creada y genera el borrador inicial con plantilla.
+2. **Deduplicacion y Alias:** Identifica terminos solapados y sugiere fusion mediante campos \`alias:\`.
+3. **Actualizacion de Mapas Tematicos:** Mantiene interconectadas las notas nucleares del proyecto.
+
 ---
 
 ## 6. Lista de Verificacion de Obediencia (Checklist)
@@ -158,7 +166,7 @@ Antes de entregar cualquier respuesta al usuario, autoverifica:
 - [ ] ¿He dejado intacto el directorio \`raw/\`?
 - [ ] ¿Me he mantenido dentro de los limites de \`${basePath}/\`?
 - [ ] ¿He usado nombres de archivo, carpetas y campos YAML en espanol sin caracteres problematicos (sin ñ ni tildes)?
-- [ ] ¿Toda nueva nota en \`wiki/\` contiene su frontmatter YAML completo?
+- [ ] ¿Toda nueva nota en \`wiki/\` contiene su frontmatter YAML completo con campos de certeza y conflicto?
 - [ ] ¿He registrado la operacion en \`log.md\` tras completar una ingesta o modificacion estructural?
 `;
         await createFileSafely(basePath + "/AGENTS.md", agentsContent);
@@ -226,6 +234,18 @@ TABLE
   fuentes AS "Basado en"
 FROM "<% "projects/" + projectName %>/wiki/sintesis"
 WHERE tipo = "sintesis"
+SORT ultima_actualizacion DESC
+```
+
+---
+
+## ⚔️ Debates y Discrepancias Tecnicas (Conflictos Epistemologicos)
+```dataview
+TABLE
+  conflicto_con AS "En conflicto con",
+  motivo_conflicto AS "Motivo / Trade-off"
+FROM "<% "projects/" + projectName %>/wiki"
+WHERE length(conflicto_con) > 0
 SORT ultima_actualizacion DESC
 ```
 

@@ -53,6 +53,18 @@ SORT ultima_actualizacion DESC
 
 ---
 
+## ⚔️ Debates y Discrepancias Tecnicas (Conflictos Epistemologicos)
+```dataview
+TABLE
+  conflicto_con AS "En conflicto con",
+  motivo_conflicto AS "Motivo / Trade-off"
+FROM "projects/mi-baul-obsidian/wiki"
+WHERE length(conflicto_con) > 0
+SORT ultima_actualizacion DESC
+```
+
+---
+
 ## 📥 Fuentes Ingestadas (Resumenes de Raw)
 ```dataview
 TABLE

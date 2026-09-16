@@ -1,0 +1,10 @@
+# Cursor Rules for LLM-Wiki Knowledge Vault
+
+- Vault Architecture: Local-first Obsidian markdown vault based on Karpathy's LLM-Wiki vision.
+- Inmutability: NEVER modify, delete, or overwrite files inside any `raw/` directory.
+- Scope Boundaries: 
+  - If editing inside `projects/<name>/`, follow `projects/<name>/AGENTS.md`. Do not write outside this project.
+  - If orchestrating globally, write only to `index.md`, `log.md`, and dynamically to `wiki/sintesis/`.
+- Safe-Spanish: Vault paths, filenames, YAML keys, and tags must not use tildes or `ñ` (e.g. `sintesis`, `diseno`).
+- Epistemology: Distinguish Fact from Inference. Preserve conflicts using `conflicto_con:` and `motivo_conflicto:` in frontmatter.
+- Formats: Use Obsidian `[[wikilinks]]`. Notes in `wiki/` must have full YAML frontmatter.
