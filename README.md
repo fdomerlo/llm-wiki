@@ -155,6 +155,17 @@ Para evolucionar la base de conocimiento sin dejar notas desvinculadas o redunda
 
 ---
 
+## 🧪 Proyecto de Demostracion: `mi-baul-obsidian`
+
+El repositorio incluye una implementacion de referencia completamente operativa en `projects/mi-baul-obsidian/` para servir de modelo vivo y guia de estilo (*few-shot example*) tanto para usuarios como para asistentes de IA:
+- **Evidencia inmutable original:** Contiene `raw/01-principios-karpathy-llm-wiki.md`, documentando la tesis fundacional de Andrej Karpathy sobre el reemplazo de RAG ingenuo por compilacion continua de conocimiento.
+- **Resumen estructurado:** En `wiki/resumenes/01-principios-karpathy-llm-wiki.md`, sintetiza los puntos clave y citas literales de la fuente.
+- **Notas atomicas interconectadas:** Modeladas en `wiki/conceptos/` (`Conocimiento-Acumulativo`, `Inmutabilidad-Raw`), `wiki/entidades/` (`Obsidian`) y `wiki/arquitectura/` (`Patron-Arquitectura-LLM-Wiki`).
+- **Sintesis comparativa:** En `wiki/sintesis/Comparativa-LLM-Wiki-vs-RAG.md`, expone la matriz de trade-offs tecnicos entre curaduria documental y recuperacion vectorial tradicional.
+- **Operacion local:** Incluye su propio `AGENTS.md`, bitacora cronologica en `log.md` y un tablero dinamico en `index.md` con consultas Dataview listas para explorar en Obsidian.
+
+---
+
 ## ⚙️ Configuracion Recomendada de Obsidian
 
 Para aprovechar al maximo este baul documental:
