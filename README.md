@@ -59,14 +59,14 @@ llm-wiki/
 │   ├── tpl_ARQUITECTURA.md    # Plantilla ADR de arquitectura
 │   └── tpl_SINTESIS.md        # Plantilla de matrices comparativas
 └── projects/                  # Directorio de proyectos autonomos
-    └── mi-baul-obsidian/      # Proyecto modelo y guia practica
+    └── mi-baul-obsidian/      # Proyecto modelo y manual de usuario integrado
         ├── AGENTS.md          # Protocolo del Agente Local de proyecto
-        ├── index.md           # Tablero y metricas del proyecto
+        ├── index.md           # Tablero, enlaces de arranque y metricas
         ├── log.md             # Bitacora de ingestas y cambios locales
         ├── raw/               # Evidencias inmutables del proyecto
         └── wiki/              # Grafo de conocimiento local
-            ├── arquitectura/  # Patrones y decisiones de diseno
-            ├── conceptos/     # Modelos mentales y tecnicas atomicas
+            ├── arquitectura/  # Patrones, decisiones y flujo diario
+            ├── conceptos/     # Modelos mentales, guia de inicio y buenas practicas
             ├── entidades/     # Herramientas, bases de datos y servicios
             ├── resumenes/     # Resumenes estructurados de cada fuente
             └── sintesis/      # Comparativas tecnicas locales
@@ -155,13 +155,18 @@ Para evolucionar la base de conocimiento sin dejar notas desvinculadas o redunda
 
 ---
 
-## 🧪 Proyecto de Demostracion: `mi-baul-obsidian`
+## 🧪 Proyecto de Demostracion y Manual de Usuario: `mi-baul-obsidian`
 
-El repositorio incluye una implementacion de referencia completamente operativa en `projects/mi-baul-obsidian/` para servir de modelo vivo y guia de estilo (*few-shot example*) tanto para usuarios como para asistentes de IA:
-- **Evidencia inmutable original:** Contiene `raw/01-principios-karpathy-llm-wiki.md`, documentando la tesis fundacional de Andrej Karpathy sobre el reemplazo de RAG ingenuo por compilacion continua de conocimiento.
-- **Resumen estructurado:** En `wiki/resumenes/01-principios-karpathy-llm-wiki.md`, sintetiza los puntos clave y citas literales de la fuente.
+El repositorio incluye una implementacion de referencia completamente operativa en `projects/mi-baul-obsidian/` que funciona simultaneamente como **modelo vivo** (*few-shot example*) y como **manual de usuario interactivo** para comenzar de inmediato:
+
+- **📖 Manual Operativo y Quickstart Integrado:**
+  - `[[projects/mi-baul-obsidian/wiki/conceptos/Guia-Inicio-Rapido|Guia de Inicio Rapido]]`: Puesta en marcha en 3 pasos simples (configurar Obsidian, crear proyecto, primera ingesta con LLM).
+  - `[[projects/mi-baul-obsidian/wiki/conceptos/Buenas-Practicas-Curaduria|Buenas Practicas y Tips]]`: Las 5 reglas de oro (atomicidad, enriquecer antes de duplicar, inmutabilidad de raw, safe-spanish y preservación de conflictos) junto a un **Cheat-Sheet de prompts listos para usar**.
+  - `[[projects/mi-baul-obsidian/wiki/arquitectura/Flujo-Operativo-Diario|Flujo Operativo Diario]]`: Diagrama visual y explicacion detallada del ciclo metabolico de 5 fases (Captura -> Destilacion -> Interconexion -> Consulta -> Jardineria).
+- **Evidencia inmutable original:** Fuentes en `raw/01-principios-karpathy-llm-wiki.md` y `raw/02-guia-operativa-y-mejores-practicas.md`.
+- **Resumenes estructurados:** En `wiki/resumenes/`, sintetizando los puntos clave y citas literales de cada documento.
 - **Notas atomicas interconectadas:** Modeladas en `wiki/conceptos/` (`Conocimiento-Acumulativo`, `Inmutabilidad-Raw`), `wiki/entidades/` (`Obsidian`) y `wiki/arquitectura/` (`Patron-Arquitectura-LLM-Wiki`).
-- **Sintesis comparativa:** En `wiki/sintesis/Comparativa-LLM-Wiki-vs-RAG.md`, expone la matriz de trade-offs tecnicos entre curaduria documental y recuperacion vectorial tradicional.
+- **Sintesis comparativa:** En `wiki/sintesis/Comparativa-LLM-Wiki-vs-RAG.md`, con matriz de trade-offs tecnicos entre curaduria documental y recuperacion vectorial tradicional.
 - **Operacion local:** Incluye su propio `AGENTS.md`, bitacora cronologica en `log.md` y un tablero dinamico en `index.md` con consultas Dataview listas para explorar en Obsidian.
 
 ---

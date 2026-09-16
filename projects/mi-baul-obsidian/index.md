@@ -7,11 +7,14 @@ ultima_actualizacion: 2026-09-16
 ---
 # 🧭 Wiki: mi-baul-obsidian
 
-> [!INFO]
-> **Base de conocimiento persistente y acumulativa.**
-> - **Esquema del Agente:** [[projects/mi-baul-obsidian/AGENTS|AGENTS.md]]
+> [!TIP]
+> **📖 Manual de Usuario y Guia Operativa del Baul:**
+> Este proyecto funciona como un **manual vivo de referencia**. Consulta sus notas nucleares:
+> - **Arranque en 3 pasos:** [[Guia-Inicio-Rapido]]
+> - **Reglas de oro y catalogo de prompts:** [[Buenas-Practicas-Curaduria]]
+> - **Ciclo de vida de 5 fases:** [[Flujo-Operativo-Diario]]
+> - **Protocolo de ejecucion del agente:** [[projects/mi-baul-obsidian/AGENTS|AGENTS.md]]
 > - **Bitacora de Operaciones:** [[projects/mi-baul-obsidian/log|log.md]]
-> - **Fuentes Inmutables:** `raw/` | **Wiki Estructurada:** `wiki/`
 
 ---
 
