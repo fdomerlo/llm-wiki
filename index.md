@@ -23,7 +23,7 @@ SORT "Ultima Actividad" DESC
 ---
 
 ## 🔗 Accesos Directos a Indices de Proyectos
-* [[projects/Cache-Strategy-Lab/index|🧭 Indice: Cache-Strategy-Lab]]
+* [[projects/mi-baul-obsidian/index|🧭 Indice: mi-baul-obsidian]]
 
 ---
 

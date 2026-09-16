@@ -2,10 +2,22 @@
 let projectName = await tp.system.prompt("Nombre del Proyecto (LLM-Wiki):");
 
 if (projectName) {
+    // Helper para normalizar slugs a formato Safe-Spanish (sin tildes, sin eñes, seguro para tags y rutas)
+    const sanitizeSafeSpanish = (text) => {
+        return text
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/ñ/g, "n")
+            .replace(/[^a-z0-9_-]+/g, "-")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "");
+    };
+
     let basePath = "projects/" + projectName; 
     let dateToday = tp.date.now("YYYY-MM-DD");
     let timestamp = tp.date.now("YYYY-MM-DDTHH:mm:ssZ");
-    let projectTag = projectName.toLowerCase().replace(/\s+/g, '-');
+    let projectTag = sanitizeSafeSpanish(projectName);
 
     try {
         // 1. Helper para crear carpetas de forma segura
@@ -168,7 +180,7 @@ _%>
 tipo: wiki_index
 proyecto: <% projectName %>
 descripcion: Indice dinamico de conocimiento y base documental del proyecto.
-tags: [llm-wiki, <% projectName.toLowerCase().replace(/\s+/g, '-') %>]
+tags: [llm-wiki, <% projectTag %>]
 ultima_actualizacion: <% tp.date.now("YYYY-MM-DD") %>
 ---
 # 🧭 Wiki: <% projectName %>
@@ -187,7 +199,7 @@ TABLE
   ultima_actualizacion AS "Actualizado",
   fuentes AS "Fuentes",
   tags AS "Etiquetas"
-FROM "<% "projects/" + projectName %>/wiki/arquitectura" OR "<% "projects/" + projectName %>/wiki"
+FROM "<% "projects/" + projectName %>/wiki"
 WHERE tipo = "arquitectura"
 SORT ultima_actualizacion DESC
 ```
@@ -200,7 +212,7 @@ TABLE
   tipo AS "Categoria",
   ultima_actualizacion AS "Fecha",
   tags AS "Tags"
-FROM "<% "projects/" + projectName %>/wiki/conceptos" OR "<% "projects/" + projectName %>/wiki/entidades"
+FROM "<% "projects/" + projectName %>/wiki"
 WHERE tipo = "concepto" OR tipo = "entidad"
 SORT file.name ASC
 ```

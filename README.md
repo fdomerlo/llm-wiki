@@ -50,7 +50,7 @@ llm-wiki/
 │   ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
 │   └── tpl_OKF.md             # Generador de proyectos OKF
 └── projects/                  # Directorio de proyectos autonomos
-    └── mi-proyecto-actual/    # Ejemplo de proyecto activo
+    └── mi-baul-obsidian/      # Ejemplo de proyecto activo y guia
         ├── AGENTS.md          # Protocolo del Agente Local de proyecto
         ├── index.md           # Tablero y metricas del proyecto
         ├── log.md             # Bitacora de ingestas y cambios locales
@@ -71,7 +71,7 @@ El sistema define dos roles de agente claramente delimitados:
 
 | Rol | Ubicacion de su Protocolo | Ambito de Escritura | Responsabilidad Principal |
 | :--- | :--- | :--- | :--- |
-| **Orquestador Global** | `llm-wiki/AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
+| **Orquestador Global** | `AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
 | **Agente Local** | `projects/<nombre>/AGENTS.md` | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
 
 > [!IMPORTANT]
@@ -82,7 +82,7 @@ El sistema define dos roles de agente claramente delimitados:
 ## 🚀 Guia de Uso y Flujos Operativos
 
 ### Flujo A: Crear un Nuevo Proyecto
-Existen dos formas de iniciar un proyecto en `projects/`:
+Existen dos formas de iniciar un proyecto en `projects/` :
 
 1. **Desde Obsidian con Templater:**
    - Ejecuta el comando *Templater: Open Insert Template Modal*.
@@ -92,7 +92,7 @@ Existen dos formas de iniciar un proyecto en `projects/`:
 
 2. **Mediante Instruccion al LLM:**
    - Pide al asistente:
-     > *"Crea un nuevo proyecto en projects/ llamado API-Gateway siguiendo la plantilla tpl_WIKI.md y registralo en el index.md global."*
+     > *"Crea un nuevo proyecto en projects/ llamado API-Gateway siguiendo la plantilla system/tpl_WIKI.md y registralo en el index.md global."*
 
 ---
 
@@ -101,7 +101,7 @@ Cuando agregues un nuevo articulo, paper o nota en la carpeta `raw/` de un proye
 
 1. Coloca el archivo en `projects/<proyecto>/raw/<fuente>.md`.
 2. Asigna la instruccion al LLM en modo Agente Local:
-   > *"Actua como Agente Local de Cache-Strategy-Lab segun su AGENTS.md. Procesa la fuente raw/03-patron-bulkhead.md ejecutando el Protocolo de Ingesta."*
+   > *"Actua como Agente Local de mi-baul-obsidian segun su AGENTS.md. Procesa la fuente raw/01-principios-karpathy.md ejecutando el Protocolo de Ingesta."*
 3. El LLM realizara:
    - Resumen estructurado en `wiki/resumenes/`.
    - Creacion o actualizacion de notas atomicas en `wiki/conceptos/`, `wiki/arquitectura/` o `wiki/entidades/` con enlaces bidireccionales.
@@ -113,11 +113,11 @@ Cuando agregues un nuevo articulo, paper o nota en la carpeta `raw/` de un proye
 Cuando desees comparar enfoques o contrastar como diferentes proyectos resuelven un mismo desafio:
 
 1. Invoca al LLM en rol de Orquestador Global:
-   > *"Actua como Orquestador Global del baul segun AGENTS.md. Compara las estrategias de invalidacion de cache entre Cache-Strategy-Lab y Session-Manager. Crea la sintesis comparativa correspondiente."*
+   > *"Actua como Orquestador Global del baul segun AGENTS.md. Compara las estrategias de gestion de estado entre mi-baul-obsidian y Auth-Service. Crea la sintesis comparativa correspondiente."*
 2. El LLM:
    - Lee los indices y notas pertinentes de ambos proyectos.
    - Genera una nota en `wiki/sintesis/[[Comparativa-<Tema>.md]]` con tabla comparativa y analisis de trade-offs.
-   - Actualiza el meta-indice [index.md](file:///home/fdomerlo/Proyectos/llm.wiki.2/index.md) y registra el evento en [log.md](file:///home/fdomerlo/Proyectos/llm.wiki.2/log.md).
+   - Actualiza el meta-indice [[index|index.md]] y registra el evento en [[log|log.md]].
 
 ---
 

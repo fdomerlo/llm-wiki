@@ -11,7 +11,7 @@ Operas bajo el paradigma de **LLM-Wiki Lite**: un sistema puramente documental, 
 La estructura canonica del repositorio es:
 
 ```text
-llm.wiki.2/
+llm-wiki/
 ├── AGENTS.md                  # Este protocolo global
 ├── index.md                   # Tablero y meta-indice general del baul
 ├── log.md                     # Bitacora cronologica de operaciones globales
@@ -95,7 +95,7 @@ certeza: alta | media | baja
 3. **Cuerpo de la Nota:**
    - **Contexto y Pregunta Guia:** Que problema se analiza.
    - **Matriz Comparativa:** Tabla comparando decisiones, ventajas y desventajas.
-   - **Citas Precisas:** Referencia las notas locales mediante enlaces canonicos (ej. `[[projects/Cache-Strategy-Lab/wiki/architecture/CDC-Cache-Invalidation|CDC Cache Invalidation]]`).
+   - **Citas Precisas:** Referencia las notas locales mediante enlaces canonicos (ej. `[[projects/mi-baul-obsidian/wiki/arquitectura/Arquitectura-LLM-Wiki|Arquitectura LLM-Wiki]]`).
    - **Conclusion y Recomendaciones:** Destacar convergencias e inferencias.
 4. **Post-accion:** Actualiza `index.md` para incluir la nueva sintesis y anade la entrada correspondiente en `log.md`.
 
