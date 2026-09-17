@@ -25,11 +25,11 @@ Un baul basado en la filosofia de Karpathy no es un vertedero pasivo de archivos
 2. Selecciona **"Open folder as vault"** (Abrir carpeta como baul) y elige la raiz `llm-wiki/`.
 3. Instala desde *Community Plugins* dos plugins indispensables:
    - **Dataview**: para renderizar todas las tablas dinamicas e indices. Habilita en sus opciones *Enable JavaScript Queries* y *Enable Inline Queries*.
-   - **Templater**: para automatizar la creacion de proyectos y notas con metadatos. En sus opciones, fija *Template folder location* apuntando a `system/`.
+   - **Templater**: para automatizar la creacion de proyectos y notas con metadatos. En sus opciones, fija *Template folder location* apuntando a `schema/`.
 
 ### Paso 2: Creacion de tu Primer Proyecto
-- Opcion A (Visual): Presiona `Alt + E` (o el atajo de Templater), selecciona `system/tpl_WIKI.md` e ingresa el nombre de tu proyecto (ej: `Motor-Recomendaciones`).
-- Opcion B (Vía LLM): Pide a tu asistente: *"Crea un nuevo proyecto en projects/ llamado Motor-Recomendaciones usando la plantilla system/tpl_WIKI.md"*.
+- Opcion A (Visual): Presiona `Alt + E` (o el atajo de Templater), selecciona `schema/tpl_WIKI.md` e ingresa el nombre de tu proyecto (ej: `Motor-Recomendaciones`).
+- Opcion B (Vía LLM): Pide a tu asistente: *"Crea un nuevo proyecto en projects/ llamado Motor-Recomendaciones usando la plantilla schema/tpl_WIKI.md"*.
 
 ### Paso 3: Tu Primera Ingesta
 1. Deja caer un archivo Markdown en `projects/<tu-proyecto>/raw/mi-fuente.md`.

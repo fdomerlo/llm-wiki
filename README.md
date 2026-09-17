@@ -52,9 +52,10 @@ llm-wiki/
 ├── raw/                       # Evidencia transversal global (inmutable)
 ├── wiki/                      # Conocimiento destilado transversal
 │   └── sintesis/              # Matrices comparativas entre proyectos (dinamica)
-├── system/                    # Catalogo de plantillas del sistema (Templater)
-│   ├── tpl_WIKI.md            # Generador de proyectos LLM-Wiki
-│   ├── tpl_OKF.md             # Generador de proyectos OKF
+├── schema/                    # Esquemas, protocolos de agentes y plantillas (Templater)
+│   ├── AGENTS_GLOBAL.md       # Esquema canonico del Orquestador Global
+│   ├── AGENTS_LOCAL.md        # Esquema canonico para Agentes Locales de proyectos
+│   ├── tpl_WIKI.md            # Generador automatico de proyectos LLM-Wiki
 │   ├── tpl_CONCEPTO.md        # Plantilla atomica de conceptos
 │   ├── tpl_ARQUITECTURA.md    # Plantilla ADR de arquitectura
 │   └── tpl_SINTESIS.md        # Plantilla de matrices comparativas
@@ -80,8 +81,8 @@ El sistema define dos roles de agente claramente delimitados:
 
 | Rol | Ubicacion de su Protocolo | Ambito de Escritura | Responsabilidad Principal |
 | :--- | :--- | :--- | :--- |
-| **Orquestador Global** | `AGENTS.md` | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
-| **Agente Local** | `projects/<nombre>/AGENTS.md` | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
+| **Orquestador Global** | `AGENTS.md` (sincronizado con `schema/AGENTS_GLOBAL.md`) | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
+| **Agente Local** | `projects/<nombre>/AGENTS.md` (derivado de `schema/AGENTS_LOCAL.md`) | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
 
 > [!IMPORTANT]
 > **Barrera de Aislamiento:** El Orquestador Global tiene prohibido modificar unilateralmente archivos internos de un proyecto para evitar corrupcion o contaminacion cruzada.
@@ -95,13 +96,13 @@ Existen dos formas de iniciar un proyecto en `projects/`:
 
 1. **Desde Obsidian con Templater:**
    - Ejecuta el comando *Templater: Open Insert Template Modal*.
-   - Selecciona `system/tpl_WIKI.md`.
+   - Selecciona `schema/tpl_WIKI.md`.
    - Ingresa el nombre del proyecto (ej. `Auth-Service`).
-   - La plantilla creara la estructura de carpetas, inyectara `AGENTS.md`, inicializara `log.md` y creara `index.md`.
+   - La plantilla creara la estructura de carpetas, inyectara `AGENTS.md` (leyendolo desde `schema/AGENTS_LOCAL.md`), inicializara `log.md` y creara `index.md`.
 
 2. **Mediante Instruccion al LLM:**
    - Pide al asistente:
-     > *"Crea un nuevo proyecto en projects/ llamado API-Gateway siguiendo la plantilla system/tpl_WIKI.md y registralo en el index.md global."*
+     > *"Crea un nuevo proyecto en projects/ llamado API-Gateway siguiendo la plantilla schema/tpl_WIKI.md y registralo en el index.md global."*
 
 ---
 
@@ -149,7 +150,7 @@ Para evolucionar la base de conocimiento sin dejar notas desvinculadas o redunda
 1. Solicita al LLM:
    > *"Ejecuta una sesion de jardineria semantica segun el Protocolo E de AGENTS.md."*
 2. El LLM realizara:
-   - **Deteccion de Stubs:** Identifica enlaces `[[...]]` citados que aun no tienen archivo fisico y propone borradores iniciales usando `system/tpl_CONCEPTO.md`.
+   - **Deteccion de Stubs:** Identifica enlaces `[[...]]` citados que aun no tienen archivo fisico y propone borradores iniciales usando `schema/tpl_CONCEPTO.md`.
    - **Deduplicacion y Alias:** Localiza notas solapadas y propone unificarlas bajo la nota canonica agregando alias YAML.
    - **Mapeo Tematico (MOC):** Agrupa clusters conceptuales para enriquecer los indices de navegacion.
 
@@ -179,7 +180,7 @@ Para aprovechar al maximo este baul documental:
    - Activar *Enable JavaScript Queries* y *Enable Inline Queries*.
    - Permite que los tableros de `index.md` (global y locales) muestren automaticamente las notas clasificadas, debates abiertos y su fecha de actividad.
 2. **Plugin Templater:**
-   - Configurar la carpeta de plantillas apuntando a `system/`.
+   - Configurar la carpeta de plantillas apuntando a `schema/`.
 3. **Plugins Semanticos Complementarios (Opcionales):**
    - **Omnisearch:** Busqueda difusa profunda, indexacion instantanea y OCR de diagramas.
    - **Smart Connections:** Calculo de embeddings locales sobre `wiki/` sin tocar `raw/`, facilitando recomendaciones de notas relacionadas durante la redaccion.

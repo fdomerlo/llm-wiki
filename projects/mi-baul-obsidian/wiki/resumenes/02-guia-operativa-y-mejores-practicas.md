@@ -2,7 +2,7 @@
 tipo: resumen_fuente
 titulo: Resumen - Guia Operativa de Campo y Buenas Practicas para LLM-Wiki
 estado: activo
-ultima_actualizacion: 2026-09-16
+ultima_actualizacion: 2026-09-17
 fuentes:
   - "[[projects/mi-baul-obsidian/raw/02-guia-operativa-y-mejores-practicas|raw/02-guia-operativa-y-mejores-practicas.md]]"
 tags:
@@ -22,7 +22,7 @@ Manual operacional que establece el protocolo paso a paso para inicializar y ope
 
 ## Puntos Clave Extraidos
 - **Metabolismo en 5 fases:** Captura (`raw/`) -> Destilacion (`resumenes/` y notas atomicas) -> Interconexion (`[[wikilinks]]`) -> Consulta anclada -> Jardineria periodica.
-- **Configuracion Minima Requerida:** Obsidian + Plugins Dataview (con JS y consultas inline) + Templater (apuntando a `system/`).
+- **Configuracion Minima Requerida:** Obsidian + Plugins Dataview (con JS y consultas inline) + Templater (apuntando a `schema/`).
 - **Prompts Estandarizados:** Formulas explicitas para invocar roles sin ambiguedad (Ingesta, Consultas, Sintesis, Jardineria, Auditoria).
 - **Criterio de Atomicidad:** 1 idea por nota, maximo 300-400 palabras; evolucionar notas existentes en vez de duplicar.
 

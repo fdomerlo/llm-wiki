@@ -2,7 +2,7 @@
 tipo: concepto
 titulo: Guia de Inicio Rapido
 estado: activo
-ultima_actualizacion: 2026-09-16
+ultima_actualizacion: 2026-09-17
 fuentes:
   - "[[projects/mi-baul-obsidian/raw/02-guia-operativa-y-mejores-practicas|raw/02-guia-operativa-y-mejores-practicas.md]]"
 tags:
@@ -35,7 +35,7 @@ Instrucciones practicas para poner en funcionamiento tu baul **LLM-Wiki** en men
      - Activa las casillas `Enable JavaScript Queries` y `Enable Inline Queries`.
    - **Templater**:
      - Entra en los ajustes de Templater.
-     - En `Template folder location`, escribe: `system`.
+     - En `Template folder location`, escribe: `schema`.
 
 > [!TIP]
 > **Plugins Opcionales Recomendados:**
@@ -51,13 +51,13 @@ El baul organiza el conocimiento por proyectos aislados dentro de `projects/`:
 ### Metodo A: Desde la interfaz de Obsidian
 1. Crea una nota vacía en la raíz.
 2. Abre la paleta de comandos (`Ctrl + P` o `Cmd + P`) y escribe `Templater: Open Insert Template Modal`.
-3. Selecciona `system/tpl_WIKI.md`.
+3. Selecciona `schema/tpl_WIKI.md`.
 4. Escribe el nombre del proyecto (ej: `Mi-Servicio-Web`).  
-   *La plantilla creará automáticamente la estructura completa de carpetas, su propio `AGENTS.md`, su `log.md` y moverá la nota como `index.md`.*
+   *La plantilla creará automáticamente la estructura completa de carpetas, inyectará su propio `AGENTS.md` (cargado dinámicamente desde `schema/AGENTS_LOCAL.md`), su `log.md` y moverá la nota como `index.md`.*
 
 ### Metodo B: Mediante tu Asistente de IA (CLI / IDE)
 Simplemente dile al modelo:
-> *"Crea un nuevo proyecto en projects/ llamado Mi-Servicio-Web usando la plantilla system/tpl_WIKI.md y enlazalo en el index.md global."*
+> *"Crea un nuevo proyecto en projects/ llamado Mi-Servicio-Web usando la plantilla schema/tpl_WIKI.md y enlazalo en el index.md global."*
 
 ---
 
