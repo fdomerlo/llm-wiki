@@ -12,7 +12,7 @@ La estructura canonica del repositorio es:
 
 ```text
 llm-wiki/
-├── AGENTS.md                  # Este protocolo global (sincronizado con schema/AGENTS_GLOBAL.md)
+├── AGENTS.md                  # Este protocolo global
 ├── index.md                   # Tablero y meta-indice general del baul
 ├── log.md                     # Bitacora cronologica de operaciones globales
 ├── projects/                  # Directorio de proyectos individuales y aislados

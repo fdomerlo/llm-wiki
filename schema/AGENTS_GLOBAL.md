@@ -135,7 +135,8 @@ El archivo `log.md` (en la raiz) debe actualizarse ante cualquier evento global 
 
 ```markdown
 ## [AAAA-MM-DD] <ACCION> | <Resumen breve>
-- **Detalle:** Descripcion concisa de los cambios realizados o la auditoria ejecutada.\n- **Artefactos afectados:** [[ruta/al/archivo]]
+- **Detalle:** Descripcion concisa de los cambios realizados o la auditoria ejecutada.
+- **Artefactos afectados:** [[ruta/al/archivo]]
 ```
 Donde `<ACCION>` puede ser: `Init`, `Index`, `Sintesis`, `Lint`, `Nuevo-Proyecto`, `Jardineria`.
 
