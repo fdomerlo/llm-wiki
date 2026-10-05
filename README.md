@@ -2,7 +2,7 @@
 
 Una **Wiki personal y tecnica** basado en **Obsidian + Markdown**, inspirado en la visión de Andrej Karpathy sobre el uso de Modelos de Lenguaje como curadores, bibliotecarios y analistas críticos de una base de conocimiento viva y acumulativa.
 
-> 📖 **Guía Práctica:** Consulta el [[MANUAL_USUARIO|Manual de Usuario]] para conocer el flujo de trabajo diario de 5 fases, casos de uso prácticos con prompts y tips de productividad.
+> 📖 **Guía Práctica:** Consulta el [Manual de usuario](MANUAL_USUARIO.md) para conocer el flujo de trabajo diario de 5 fases, casos de uso prácticos con prompts y tips de productividad.
 
 ---
 
