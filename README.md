@@ -2,6 +2,8 @@
 
 Una **Wiki personal y tecnica** basado en **Obsidian + Markdown**, inspirado en la visión de Andrej Karpathy sobre el uso de Modelos de Lenguaje como curadores, bibliotecarios y analistas críticos de una base de conocimiento viva y acumulativa.
 
+> 📖 **Guía Práctica:** Consulta el [[MANUAL_USUARIO|Manual de Usuario]] para conocer el flujo de trabajo diario de 5 fases, casos de uso prácticos con prompts y tips de productividad.
+
 ---
 
 ## 🧭 Proposito y Filosofia
@@ -44,16 +46,16 @@ motivo_conflicto: "Divergencia entre consistencia eventual y latencia ultra-baja
 
 ```text
 llm-wiki/
-├── AGENTS.md                  # Protocolo global del Orquestador del baul
-├── README.md                  # Esta guia de uso y arquitectura
-├── CLAUDE.md / .cursorrules   # Instrucciones contextuales para asistentes de IA
+├── AGENTS.md                  # Protocolo unificado de agentes (Claude, Cursor, Antigravity, etc.)
+├── MANUAL_USUARIO.md          # Manual de usuario: guia de trabajo, casos de uso con prompts y tips
+├── README.md                  # Esta guia de uso y arquitectura general
+├── .cursorrules               # Reglas contextuales de IDE (Cursor)
 ├── index.md                   # Tablero general con consultas Dataview
 ├── log.md                     # Bitacora cronologica de operaciones globales
 ├── raw/                       # Evidencia transversal global (inmutable)
 ├── wiki/                      # Conocimiento destilado transversal
 │   └── sintesis/              # Matrices comparativas entre proyectos (dinamica)
 ├── schema/                    # Esquemas, protocolos de agentes y plantillas (Templater)
-│   ├── AGENTS_GLOBAL.md       # Esquema canonico del Orquestador Global
 │   ├── AGENTS_LOCAL.md        # Esquema canonico para Agentes Locales de proyectos
 │   ├── tpl_WIKI.md            # Generador automatico de proyectos LLM-Wiki
 │   ├── tpl_CONCEPTO.md        # Plantilla atomica de conceptos
@@ -81,7 +83,7 @@ El sistema define dos roles de agente claramente delimitados:
 
 | Rol | Ubicacion de su Protocolo | Ambito de Escritura | Responsabilidad Principal |
 | :--- | :--- | :--- | :--- |
-| **Orquestador Global** | `AGENTS.md` (sincronizado con `schema/AGENTS_GLOBAL.md`) | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
+| **Orquestador Global** | `AGENTS.md` (raiz) | `index.md`, `log.md`, `wiki/sintesis/` | Mantener el mapa de navegacion general, conectar patrones entre proyectos y auditar la salud del baul. |
 | **Agente Local** | `projects/<nombre>/AGENTS.md` (derivado de `schema/AGENTS_LOCAL.md`) | Exclusivamente `projects/<nombre>/` | Ingestar fuentes en `raw/`, crear notas atomicas, responder consultas de dominio y auditar el proyecto. |
 
 > [!IMPORTANT]

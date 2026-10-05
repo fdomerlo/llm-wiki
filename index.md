@@ -3,6 +3,7 @@
 > [!SUMMARY]
 > Tablero de orquestacion y vision panoramica de todos los proyectos y sintesis transversales.
 > - **Guia y Proposito:** [[README|README.md]]
+> - **Manual de Usuario:** [[MANUAL_USUARIO|MANUAL_USUARIO.md]]
 > - **Protocolo del Orquestador:** [[AGENTS|AGENTS.md]]
 > - **Bitacora Global:** [[log|log.md]]
 > - **Sintesis Transversales:** `wiki/sintesis/`
