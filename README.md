@@ -49,7 +49,6 @@ llm-wiki/
 ├── AGENTS.md                  # Protocolo unificado de agentes (Claude, Cursor, Antigravity, etc.)
 ├── MANUAL_USUARIO.md          # Manual de usuario: guia de trabajo, casos de uso con prompts y tips
 ├── README.md                  # Esta guia de uso y arquitectura general
-├── .cursorrules               # Reglas contextuales de IDE (Cursor)
 ├── index.md                   # Tablero general con consultas Dataview
 ├── log.md                     # Bitacora cronologica de operaciones globales
 ├── raw/                       # Evidencia transversal global (inmutable)
